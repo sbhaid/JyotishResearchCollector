@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jyotish Collector</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f5f0;--bg3:#f0ede6;
+  --border:#d8d2c8;--border2:#b8b0a0;
+  --ink:#1a1714;--ink2:#4a4540;--ink3:#7a7268;
+  --gold:#8b6914;--gold-bg:#fdf8ec;
+  --red:#8b1a1a;--blue:#1a3a6b;--green:#1a5c2e;
+  --rule:#e8e2d8;
+}
+body{background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.6;min-height:100vh}
+
+/* HEADER */
+.hdr{background:var(--ink);color:#f5eed8;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold)}
+.hdr-brand{font-family:'Libre Baskerville',serif;font-size:16px;letter-spacing:.05em}
+.hdr-brand small{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:#a09070;margin-top:1px}
+.hdr-btns{display:flex;gap:8px}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 55px)}
+.sidebar{width:220px;min-width:220px;border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column}
+.sb-hd{padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:space-between}
+.sb-hd span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--ink3);text-transform:uppercase}
+.plist{flex:1;overflow-y:auto}
+.pitem{padding:9px 14px;border-bottom:1px solid var(--rule);cursor:pointer;transition:background .1s}
+.pitem:hover{background:var(--bg3)}
+.pitem.active{background:var(--gold-bg);border-left:3px solid var(--gold)}
+.pitem-name{font-size:14px;font-family:'Libre Baskerville',serif}
+.pitem-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);margin-top:1px}
+.sb-empty{padding:24px 14px;font-size:12px;color:var(--ink3);text-align:center;line-height:1.9;font-style:italic}
+.main{flex:1;overflow-y:auto}
+
+/* BUTTONS */
+.btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.05em;padding:5px 12px;border:1px solid #555;background:transparent;color:#c8b880;cursor:pointer;transition:all .15s}
+.btn:hover{border-color:var(--gold);color:#f5eed8}
+.ibtn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border:1px solid var(--border2);background:#fff;color:var(--ink2);cursor:pointer;transition:all .15s}
+.ibtn:hover{border-color:var(--gold);color:var(--gold)}
+.pbtn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 14px;border:1px solid var(--gold);background:var(--gold);color:#fff;cursor:pointer;transition:all .15s}
+.pbtn:hover{background:#6b5010}
+.sm{padding:3px 8px;font-size:9px}
+.dbtn{border-color:#e0b0b0;color:var(--red)}
+.dbtn:hover{background:#fdf0f0}
+
+/* FORMS */
+label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--ink3);text-transform:uppercase;display:block;margin-bottom:3px}
+input,select,textarea{background:#fff;border:1px solid var(--border2);color:var(--ink);padding:6px 9px;font-family:'EB Garamond',serif;font-size:14px;outline:none;transition:border-color .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+textarea{resize:vertical;font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.6}
+.fg{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* PERSON PAGE */
+.ppage{padding:24px 28px;max-width:1080px}
+.phdr{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:12px;border-bottom:2px solid var(--ink);margin-bottom:20px}
+.pname{font-family:'Libre Baskerville',serif;font-size:22px;font-weight:700}
+.pmeta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);margin-top:3px;letter-spacing:.08em}
+
+/* SECTIONS */
+.sec{margin-bottom:28px}
+.sec-ttl{font-family:'Libre Baskerville',serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--border2);padding-bottom:5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-ttl span{font-weight:400;color:var(--ink3);font-size:9px;letter-spacing:.1em}
+
+/* PASTE */
+.paste-wrap{border:1px solid var(--border2);background:#fff}
+.paste-wrap textarea{border:none;background:transparent;min-height:100px;padding:10px 12px}
+.paste-bar{display:flex;align-items:center;gap:8px;padding:6px 10px;border-top:1px solid var(--rule);background:var(--bg3)}
+.pmsg{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);flex:1}
+.pmsg.ok{color:var(--green)}.pmsg.err{color:var(--red)}
+
+
+
+/* CHARTS */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-card{border:1px solid var(--border2);background:#fff;overflow:hidden}
+.chart-hd{background:var(--ink);color:#f5eed8;padding:6px 12px;display:flex;align-items:center;justify-content:space-between}
+.chart-hd .cl{font-family:'Libre Baskerville',serif;font-size:12px;font-weight:700;letter-spacing:.1em}
+.chart-hd .clag{font-family:'JetBrains Mono',monospace;font-size:9px;color:#a09070}
+
+/* NORTH INDIAN GRID */
+.ni{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr 1fr;border:2px solid var(--ink);margin:8px;aspect-ratio:1}
+.nc{border:1px solid var(--border2);padding:3px 4px;background:#fff;position:relative;overflow:hidden;min-height:46px}
+.nc.mid{background:var(--bg2);border:none;display:flex;align-items:center;justify-content:center}
+.hn{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--ink3);position:absolute;top:2px;left:3px}
+.sn{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--gold);position:absolute;top:2px;right:3px}
+.pp{display:flex;flex-wrap:wrap;gap:1px;margin-top:13px}
+.pp b{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink);font-weight:500;line-height:1.4;white-space:nowrap}
+.pp b.asc{color:var(--blue);font-weight:700}
+.pp b.rx{color:var(--red)}
+
+/* PLANET TABLE */
+.ptbl{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0 8px}
+.ptbl th{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.1em;color:var(--ink3);padding:4px 8px;border-bottom:2px solid var(--border2);background:var(--bg2);text-align:left;text-transform:uppercase}
+.ptbl td{padding:3px 8px;border-bottom:1px solid var(--rule);font-size:12px}
+.ptbl tr:hover td{background:var(--gold-bg)}
+.pln{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500}
+.pdg{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink2)}
+.psg{font-style:italic;color:var(--ink)}
+.ph{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);font-weight:500}
+.prx{color:var(--red);font-size:8px;margin-left:2px}
+
+/* EVENTS */
+.ev-form{display:grid;grid-template-columns:110px 1fr 100px 100px 100px auto;gap:8px;align-items:flex-end;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);margin-bottom:8px}
+.ev-form .fg{margin:0}
+.ev-list{display:flex;flex-direction:column;gap:4px}
+.ev-row{border:1px solid var(--rule);background:#fff;font-size:12px;cursor:pointer}
+.ev-row:hover{background:var(--gold-bg)}
+.ev-row-summary{display:flex;align-items:center;gap:10px;padding:6px 10px;flex-wrap:wrap}
+.ev-detail{display:none;border-top:1px solid var(--rule);padding:10px 12px;background:var(--bg2)}
+.ev-detail.open{display:block}
+.ev-detail table{width:100%;border-collapse:collapse;font-size:11px}
+.ev-detail th{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--ink3);padding:4px 8px;border-bottom:1px solid var(--border);text-align:left;background:var(--bg3);text-transform:uppercase}
+.ev-detail td{padding:4px 8px;border-bottom:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:10px}
+.ev-detail tr:hover td{background:var(--gold-bg)}
+.ev-chevron{font-size:9px;color:var(--ink3);margin-left:auto;transition:transform .2s}
+.ev-chevron.open{transform:rotate(180deg)}
+.evd{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3)}
+.evb{font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 7px;border-radius:20px;border:1px solid;text-align:center}
+.evds{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3)}
+.t-job_switch{border-color:#2c5f8a;color:#1a3f6b;background:#eef4fb}
+.t-promotion{border-color:#2e7d52;color:#1a5c2e;background:#eef7f2}
+.t-layoff{border-color:#8a2c2c;color:#6b1a1a;background:#fdf0f0}
+.t-move_abroad{border-color:#6b4c8a;color:#4a2c6b;background:#f5f0fb}
+.t-business_start{border-color:#8b6914;color:#6b4a0a;background:#fdf8ec}
+.t-big_jump{border-color:#7a5c1a;color:#5c4010;background:#fdf5e0}
+.t-career_break{border-color:#6a6a4a;color:#4a4a2a;background:#f5f5ec}
+.t-marriage{border-color:#8a4c6b;color:#6b2a4a;background:#fdf0f5}
+.t-child_birth{border-color:#2c5a8a;color:#1a3a6b;background:#eef2fb}
+.t-illness{border-color:#8a4c2c;color:#6b2a1a;background:#fdf3ee}
+.t-accident{border-color:#8a2c2c;color:#6b1a1a;background:#fdf0f0}
+.t-other{border-color:#888;color:#444;background:#f5f5f5}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#fff;border:1px solid var(--border2);width:100%;max-width:440px;padding:22px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.modal-ttl{font-family:'Libre Baskerville',serif;font-size:17px;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.modal-ft{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:12px;border-top:1px solid var(--rule)}
+
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;background:var(--ink);color:#f5eed8;font-family:'JetBrains Mono',monospace;font-size:10px;padding:7px 14px;z-index:999;opacity:0;transform:translateY(5px);transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* WELCOME */
+.welcome{display:flex;align-items:center;justify-content:center;height:calc(100vh - 55px);flex-direction:column;gap:10px;color:var(--ink3);text-align:center}
+.welcome-om{font-size:72px;opacity:.06;line-height:1;font-family:'Libre Baskerville',serif}
+.welcome-txt{font-family:'Libre Baskerville',serif;font-size:20px;color:var(--ink3)}
+
+.hidden{display:none!important}
+hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-brand">ॐ Jyotish Research Collector <small>CAREER PATTERN DATABASE</small></div>
+  <div class="hdr-btns">
+    <button class="btn" onclick="triggerImport()">↑ Import</button>
+    <button class="btn" onclick="exportJSON()">↓ Export JSON</button>
+    <button class="btn" style="border-color:#c8a84c;color:#f5eed8;background:rgba(139,105,20,.35)" onclick="openNewPerson()">+ New Person</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-hd">
+      <span>Persons (<span id="pcount">0</span>)</span>
+      <button class="ibtn sm" onclick="openNewPerson()">+</button>
+    </div>
+    <div class="plist" id="plist">
+      <div class="sb-empty">No records yet.<br>Add a person to begin.</div>
+    </div>
+  </div>
+
+  <div class="main" id="main">
+    <div class="welcome" id="welcome">
+      <div class="welcome-om">ॐ</div>
+      <div class="welcome-txt">Select or create a person</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;margin-top:4px">D1 · D9 · D10 · D24</div>
+    </div>
+    <div id="pview" class="hidden"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="file-import" accept=".json" class="hidden" onchange="handleImport(event)">
+
+<!-- NEW PERSON MODAL -->
+<div class="overlay hidden" id="modal-np">
+  <div class="modal">
+    <div class="modal-ttl">New Person</div>
+    <div class="fg"><label>Full Name</label><input id="np-name" type="text" placeholder="Full name"></div>
+    <div class="fg2">
+      <div class="fg"><label>Date of Birth</label><input id="np-dob" type="date"></div>
+      <div class="fg"><label>Time of Birth</label><input id="np-tob" type="time"></div>
+      <div class="fg"><label>Place of Birth</label><input id="np-pob" type="text" placeholder="City, Country"></div>
+      <div class="fg"><label>Gender</label>
+        <select id="np-gender"><option value="">—</option><option>Male</option><option>Female</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="ibtn" onclick="closeModal('modal-np')">Cancel</button>
+      <button class="pbtn" onclick="savePerson()">Create</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONSTANTS ──────────────────────────────────────────────────────
+const SIGNS=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+const SIGN_SHORT=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
+const SIGN_MAP={Ar:'Aries',Ta:'Taurus',Ge:'Gemini',Ca:'Cancer',Cn:'Cancer',Le:'Leo',Vi:'Virgo',Li:'Libra',Sc:'Scorpio',Sa:'Sagittarius',Sg:'Sagittarius',Cp:'Capricorn',Aq:'Aquarius',Pi:'Pisces'};
+const PLANETS=['Lagna','Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'];
+const PL_ABBR={Lagna:'As',Sun:'Su',Moon:'Mo',Mars:'Ma',Mercury:'Me',Jupiter:'Ju',Venus:'Ve',Saturn:'Sa',Rahu:'Ra',Ketu:'Ke'};
+const DASHAS=['Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury','Ketu','Venus'];
+const EV_TYPES=[['job_switch','Job Switch'],['promotion','Promotion'],['layoff','Layoff'],['move_abroad','Move Abroad'],['business_start','Business Start'],['big_jump','Big Jump'],['career_break','Career Break'],['marriage','Marriage'],['child_birth','Child Birth'],['illness','Illness'],['accident','Accident'],['other','Other']];
+const SHOW_VARGAS=['D-1','D-9','D-10 (Trd)','D-24 (Trd)'];
+const VARGA_LBL={'D-1':'D1','D-9':'D9','D-10 (Trd)':'D10','D-24 (Trd)':'D24'};
+
+// North Indian grid areas: house -> CSS grid-area
+const NI_AREA={1:'1/2/2/3',2:'1/3/2/4',3:'1/4/2/5',4:'2/4/3/5',5:'3/4/4/5',6:'4/4/5/5',7:'4/3/5/4',8:'4/2/5/3',9:'4/1/5/2',10:'3/1/4/2',11:'2/1/3/2',12:'1/1/2/2'};
+
+// ── DATA ───────────────────────────────────────────────────────────
+let db={persons:[],v:1};
+let cid=null;
+function load(){try{const s=localStorage.getItem('jrc5');if(s)db=JSON.parse(s)}catch(e){}}
+function save(){localStorage.setItem('jrc5',JSON.stringify(db))}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+function cp(){return db.persons.find(p=>p.id===cid)}
+
+// ── PARSER ─────────────────────────────────────────────────────────
+function parseVargaTable(text){
+  const lines=text.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+  if(lines.length<2)return null;
+  const headerTokens=lines[0].split(/\s+/);
+  const cols=[];
+  let i=0;
+  while(i<headerTokens.length){
+    const t=headerTokens[i];
+    if(t==='Body'){cols.push('Body');i++;continue;}
+    if(t.startsWith('D-')){
+      let col=t;
+      while(i+1<headerTokens.length){
+        const nx=headerTokens[i+1];
+        if(nx.startsWith('(')||nx==='x'){col+=' '+nx;i++;if(nx==='x'&&i+1<headerTokens.length){col+=' '+headerTokens[i+1];i++;}}else break;
+      }
+      cols.push(col);
+    }
+    i++;
+  }
+  if(cols.length<2)return null;
+  function parsePos(tok){
+    const m=tok.match(/^(\d+)([A-Z][a-z])(\d+)$/);
+    if(!m)return null;
+    const sign=SIGN_MAP[m[2]];if(!sign)return null;
+    return{sign,deg:parseInt(m[1]),min:parseInt(m[3])};
+  }
+  const result={};
+  for(let li=1;li<lines.length;li++){
+    const tokens=lines[li].split(/\s+/);
+    const planet=tokens[0];
+    if(!PLANETS.includes(planet))continue;
+    result[planet]={};
+    for(let ci=0;ci<cols.length-1;ci++){
+      const tok=tokens[ci+1];
+      if(tok){const pos=parsePos(tok);if(pos)result[planet][cols[ci+1]]=pos;}
+    }
+  }
+  return{cols:cols.slice(1),planets:result};
+}
+
+// ── HOUSE CALC (KP equal houses) ──────────────────────────────────
+function getHouse(pSign,pDeg,lSign,lDeg){
+  const lAbs=SIGNS.indexOf(lSign)*30+lDeg;
+  const pAbs=SIGNS.indexOf(pSign)*30+pDeg;
+  let diff=pAbs-lAbs;if(diff<0)diff+=360;
+  return Math.floor(diff/30)+1;
+}
+
+// ── NORTH INDIAN CHART (SVG) ───────────────────────────────────────
+// H1 = top-centre. Houses go ANTICLOCKWISE.
+// H1=top-ctr, H2=top-left, H3=left-top, H4=left-ctr, H5=left-bot,
+// H6=bot-left, H7=bot-ctr, H8=bot-right, H9=right-bot, H10=right-ctr,
+// H11=right-top, H12=top-right
+// Planets placed by sign read directly from table — no computation.
+function buildNIChart(vname, varData){
+  if(!varData) return '<div style="padding:14px 10px;color:#aaa;font-size:12px;font-style:italic;text-align:center">No data</div>';
+  const lagnaPos = varData['Lagna'];
+  if(!lagnaPos) return '<div style="padding:14px 10px;color:#aaa;font-size:12px;font-style:italic;text-align:center">No lagna</div>';
+
+  const ascSign = SIGNS.indexOf(lagnaPos.sign);
+  const W=240, H=220;
+  const TL=[0,0],MT=[W/2,0],TR=[W,0],ML=[0,H/2],MR=[W,H/2],BL=[0,H],MB=[W/2,H],BR=[W,H];
+  const PTL=[W/4,H/4],PTR=[3*W/4,H/4],PBL=[W/4,3*H/4],PBR=[3*W/4,3*H/4],C=[W/2,H/2];
+  function pp(...p){return p.map(([x,y])=>x.toFixed(1)+','+y.toFixed(1)).join(' ');}
+  function cen(...p){return[p.reduce((a,v)=>a+v[0],0)/p.length,p.reduce((a,v)=>a+v[1],0)/p.length];}
+
+  // Polygons in anticlockwise order starting H1=top-centre
+  const POLY=[
+    pp(MT,PTR,C,PTL),   // H1  top-centre
+    pp(TL,PTL,MT),       // H2  top-left corner
+    pp(TL,ML,PTL),       // H3  left-top
+    pp(ML,PTL,C,PBL),   // H4  left-centre
+    pp(BL,ML,PBL),       // H5  left-bottom
+    pp(BL,PBL,MB),       // H6  bottom-left corner
+    pp(MB,PBL,C,PBR),   // H7  bottom-centre
+    pp(MB,PBR,BR),       // H8  bottom-right corner
+    pp(MR,PBR,BR),       // H9  right-bottom
+    pp(MR,PBR,C,PTR),   // H10 right-centre
+    pp(MR,PTR,TR),       // H11 right-top
+    pp(TR,PTR,MT),       // H12 top-right corner
+  ];
+  const CENTS=[
+    cen(MT,PTR,C,PTL),
+    cen(TL,PTL,MT),
+    cen(TL,ML,PTL),
+    cen(ML,PTL,C,PBL),
+    cen(BL,ML,PBL),
+    cen(BL,PBL,MB),
+    cen(MB,PBL,C,PBR),
+    cen(MB,PBR,BR),
+    cen(MR,PBR,BR),
+    cen(MR,PBR,C,PTR),
+    cen(MR,PTR,TR),
+    cen(TR,PTR,MT),
+  ];
+
+  // Group planets by sign index — read sign directly from table
+  const sp={};
+  for(let i=0;i<12;i++) sp[i]=[];
+  PLANETS.forEach(pl=>{
+    const pos=varData[pl]; if(!pos) return;
+    const si=SIGNS.indexOf(pos.sign);
+    if(si>=0) sp[si].push({id:PL_ABBR[pl], isLagna:pl==="Lagna", deg:pos.deg, min:pos.min});
+  });
+
+  const bc='#b0a898', tc='#1a1714', tc2='#7a7268', blue='#1a3a6b', red='#8b1a1a';
+  let svg=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;max-width:${W}px">`;
+
+  for(let hi=0;hi<12;hi++){
+    const signIdx=(ascSign+hi)%12;  // anticlockwise: H1=ascSign, H2=ascSign+1...
+    const isAsc=(hi===0);
+    const signShort=SIGN_SHORT[signIdx];
+    const fill=isAsc?'#fdf3dc':'#ffffff';
+    svg+=`<polygon points="${POLY[hi]}" fill="${fill}" stroke="${bc}" stroke-width="0.8"/>`;
+    const[cx,cy]=CENTS[hi];
+    svg+=`<text x="${cx}" y="${cy-14}" text-anchor="middle" font-size="8" fill="#a09070" font-family="monospace">${signShort}</text>`;
+    if(isAsc) svg+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="7" fill="${blue}" font-weight="700" font-family="monospace">Lg</text>`;
+    const ps=sp[signIdx];
+    let py=isAsc&&ps.length?cy+8:cy+1;
+    ps.forEach(p=>{
+      svg+=`<text x="${cx}" y="${py}" text-anchor="middle" font-size="9" fill="${p.isLagna?blue:tc}" font-weight="600" font-family="monospace">${p.id}</text>`;
+      py+=11;
+      svg+=`<text x="${cx}" y="${py}" text-anchor="middle" font-size="7" fill="${tc2}" font-family="monospace">${p.deg}°${p.min}'</text>`;
+      py+=10;
+    });
+  }
+  svg+='</svg>';
+  return svg;
+}
+
+// ── PLANET TABLE ────────────────────────────────────────────────────
+// House = sign's position relative to lagna sign, read directly.
+function buildPlanetTable(vname,varData){
+  if(!varData)return'';
+  const lagnaPos=varData['Lagna'];
+  if(!lagnaPos)return'';
+  const lagnaIdx=SIGNS.indexOf(lagnaPos.sign);
+  const signToHouse={};
+  for(let h=1;h<=12;h++) signToHouse[SIGNS[(lagnaIdx+h-1)%12]]=h;
+  let html=`<table class="ptbl"><thead><tr><th>Planet</th><th>Sign</th><th>Deg</th><th>H</th></tr></thead><tbody>`;
+  PLANETS.forEach(pl=>{
+    const pos=varData[pl];
+    if(!pos){html+=`<tr><td class="pln">${pl}</td><td colspan="3" style="color:#bbb">—</td></tr>`;return;}
+    const h=signToHouse[pos.sign]||'?';
+    html+=`<tr>
+      <td class="pln">${PL_ABBR[pl]} <span style="font-size:9px;color:#7a7268">${pl}</span></td>
+      <td class="psg">${pos.sign}</td>
+      <td class="pdg">${pos.deg}°${pos.min}'</td>
+      <td class="ph">H${h}</td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  return html;
+}
+
+// ── RENDER PERSON VIEW ─────────────────────────────────────────────
+function renderPview(){
+  document.getElementById('welcome').classList.add('hidden');
+  const pv=document.getElementById('pview');pv.classList.remove('hidden');
+  const p=cp();if(!p){pv.innerHTML='';return;}
+  const dashaOpts=`<option value="">—</option>${DASHAS.map(d=>`<option>${d}</option>`).join('')}`;
+  const typeOpts=`<option value="">— Event Type —</option>${EV_TYPES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}`;
+  const events=(p.events||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const lagnaD1=p.vargas&&p.vargas['D-1']&&p.vargas['D-1']['Lagna'];
+
+  pv.innerHTML=`
+<div class="ppage">
+  <div class="phdr">
+    <div>
+      <div class="pname">${p.name}</div>
+      <div class="pmeta">${p.dob||'—'} · ${p.tob||'—'} · ${p.pob||'—'}</div>
+    </div>
+    <button class="ibtn sm dbtn" onclick="deletePerson('${p.id}')">Delete</button>
+  </div>
+
+  <!-- 1. PASTE -->
+  <div class="sec">
+    <div class="sec-ttl">1 — Chart Data <span>PASTE JHORA VARGA TABLE</span></div>
+    <div class="paste-wrap">
+      <textarea id="paste-varga" rows="8" placeholder="Paste the full JHora varga table here (Body  D-1  D-9  D-10 (Trd)...)">${p.rawVarga||''}</textarea>
+      <div class="paste-bar">
+        <span class="pmsg" id="pmsg">${p.rawVarga?'Parsed ✓ — re-paste to update':'Ready'}</span>
+        <button class="ibtn sm" onclick="doClear()">Clear</button>
+        <button class="pbtn sm" onclick="doParse()">Parse →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. NOTES -->
+  <div class="sec">
+    <div class="sec-ttl">2 — Notes &amp; Findings <span>JYOTISH OBSERVATIONS</span></div>
+    <textarea id="notes-input" rows="6" placeholder="Write your findings, yogas, observations, patterns noticed..."
+      style="width:100%;font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.7;padding:12px 14px;border:1px solid var(--border2);background:#fff;color:var(--ink);resize:vertical;outline:none;"
+      oninput="saveNotes(this.value)">${p.notes||''}</textarea>
+  </div>
+
+  <!-- 3. CHARTS -->
+  <div class="sec">
+    <div class="sec-ttl">3 — Charts <span>D1 · D9 · D10 · D24</span></div>
+    <div class="charts-grid" id="charts-grid">${renderAllCharts(p)}</div>
+  </div>
+
+
+  <!-- RASHI OWNERSHIP REFERENCE -->
+  <div class="sec">
+    <div class="sec-ttl">Rashi Ownership <span>PRIMARY · JOINT</span></div>
+    <div id="rashi-ref" style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;font-size:11px">
+      ${rashaRefHTML()}
+    </div>
+  </div>
+
+  <!-- 4. EVENTS -->
+  <div class="sec">
+    <div class="sec-ttl">4 — Life Events <span id="ev-count-lbl">${events.length} RECORDED</span></div>
+    <div class="ev-form">
+      <div class="fg"><label>Date</label><input type="date" id="ev-d"></div>
+      <div class="fg"><label>Type</label><select id="ev-t">${typeOpts}</select></div>
+      <div class="fg"><label>Mahadasha</label><select id="ev-m">${dashaOpts}</select></div>
+      <div class="fg"><label>Antardasha</label><select id="ev-a">${dashaOpts}</select></div>
+      <div class="fg"><label>Pratyantar</label><select id="ev-p">${dashaOpts}</select></div>
+      <div><button class="pbtn" onclick="addEvent()">Add</button></div>
+    </div>
+    <div class="ev-list" id="ev-list">
+      ${!events.length
+        ?'<div style="color:#7a7268;font-size:13px;padding:10px 0;font-style:italic">No events yet</div>'
+        :events.map(ev=>evRow(ev,p)).join('')}
+    </div>
+  </div>
+</div>`;
+}
+
+function renderAllCharts(p){
+  return SHOW_VARGAS.map(v=>{
+    const vd=p.vargas&&p.vargas[v]||null;
+    const lpos=vd&&vd['Lagna'];
+    const lagStr=lpos?`${lpos.deg}°${lpos.min}' ${lpos.sign}`:'no data';
+    return`<div class="chart-card">
+      <div class="chart-hd"><span class="cl">${VARGA_LBL[v]}</span><span class="clag">${lagStr}</span></div>
+      ${buildNIChart(v,vd)}
+      ${buildPlanetTable(v,vd)}
+    </div>`;
+  }).join('');
+}
+
+// ── PARSE / CLEAR ───────────────────────────────────────────────────
+function doParse(){
+  const p=cp();if(!p)return;
+  const raw=document.getElementById('paste-varga').value.trim();
+  const msg=document.getElementById('pmsg');
+  if(!raw){msg.textContent='Nothing to parse';msg.className='pmsg err';return;}
+  const parsed=parseVargaTable(raw);
+  if(!parsed||!Object.keys(parsed.planets).length){msg.textContent='Parse failed — check format';msg.className='pmsg err';return;}
+  p.rawVarga=raw;p.vargas={};
+  Object.entries(parsed.planets).forEach(([pl,vm])=>{
+    Object.entries(vm).forEach(([vn,pos])=>{
+      if(!p.vargas[vn])p.vargas[vn]={};
+      p.vargas[vn][pl]=pos;
+    });
+  });
+  save();
+  msg.textContent=`Parsed ${Object.keys(parsed.planets).length} planets × ${parsed.cols.length} vargas ✓`;
+  msg.className='pmsg ok';
+  document.getElementById('charts-grid').innerHTML=renderAllCharts(p);
+
+}
+
+function doClear(){
+  const p=cp();if(!p)return;
+  p.rawVarga='';p.vargas={};save();
+  document.getElementById('paste-varga').value='';
+  document.getElementById('pmsg').textContent='Cleared';
+  document.getElementById('pmsg').className='pmsg';
+  document.getElementById('charts-grid').innerHTML=renderAllCharts(p);
+}
+
+
+
+
+
+// ── RASHI OWNERSHIP REFERENCE ────────────────────────────────────────
+function rashaRefHTML(){
+  const RASHI_OWNERS = [
+    {sign:'Aries',      primary:'Mars',    joint:null},
+    {sign:'Taurus',     primary:'Venus',   joint:null},
+    {sign:'Gemini',     primary:'Mercury', joint:null},
+    {sign:'Cancer',     primary:'Moon',    joint:null},
+    {sign:'Leo',        primary:'Sun',     joint:null},
+    {sign:'Virgo',      primary:'Mercury', joint:'Rahu'},
+    {sign:'Libra',      primary:'Venus',   joint:null},
+    {sign:'Scorpio',    primary:'Mars',    joint:'Ketu'},
+    {sign:'Sagittarius',primary:'Jupiter', joint:null},
+    {sign:'Capricorn',  primary:'Saturn',  joint:null},
+    {sign:'Aquarius',   primary:'Saturn',  joint:'Rahu'},
+    {sign:'Pisces',     primary:'Jupiter', joint:'Ketu'},
+  ];
+  const SHORT=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
+  return RASHI_OWNERS.map((r,i)=>`
+    <div style="background:var(--bg2);border:1px solid var(--rule);padding:5px 7px;border-radius:1px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--gold);margin-bottom:2px">${SHORT[i]} ${r.sign}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink);font-weight:600">${r.primary}</div>
+      ${r.joint?`<div style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink3)">+ ${r.joint}</div>`:'<div style="height:13px"></div>'}
+    </div>`).join('');
+}
+
+// ── PLANET HOUSE LOGIC ───────────────────────────────────────────────
+// Which signs does each planet own
+const PLANET_OWNS = {
+  Sun:['Leo'], Moon:['Cancer'], Mars:['Aries','Scorpio'],
+  Mercury:['Gemini','Virgo'], Jupiter:['Sagittarius','Pisces'],
+  Venus:['Taurus','Libra'], Saturn:['Capricorn','Aquarius'],
+  Rahu:['Aquarius','Virgo'], Ketu:['Scorpio','Pisces']
+};
+// Joint ownership: Rahu co-owns Aquarius (w/Saturn) & Virgo (w/Mercury)
+// Ketu co-owns Scorpio (w/Mars) & Pisces (w/Jupiter)
+
+// For a given planet and varga chart data, return {sits, owns}
+// sits = house number planet occupies
+// owns = house numbers planet rules
+function planetHouseInfo(planet, varData) {
+  if(!varData) return null;
+  const lagnaPos = varData['Lagna'];
+  if(!lagnaPos) return null;
+  const lagnaIdx = SIGNS.indexOf(lagnaPos.sign);
+  const signToHouse = {};
+  for(let h=1;h<=12;h++) signToHouse[SIGNS[(lagnaIdx+h-1)%12]] = h;
+
+  // Sits in
+  const pos = varData[planet];
+  const sits = pos ? (signToHouse[pos.sign] || '?') : '?';
+
+  // Owns
+  const ownedSigns = PLANET_OWNS[planet] || [];
+  const owns = ownedSigns.map(s => signToHouse[s] || '?').filter(h => h !== '?');
+
+  return { sits, owns: owns.length ? owns.join(',') : '—' };
+}
+
+// Build the expandable dasha detail table for an event
+function dashaDetailHTML(ev, p) {
+  const dashaPlants = [
+    { label: 'Maha', planet: ev.maha },
+    { label: 'Antar', planet: ev.antar },
+    { label: 'Pratyantar', planet: ev.pratyantar },
+  ].filter(d => d.planet);
+  if(!dashaPlants.length) return '<div style="color:#aaa;font-size:11px;font-style:italic">No dasha recorded</div>';
+
+  const vargas = ['D-1','D-9','D-10 (Trd)'];
+  const vLabels = {'D-1':'D1','D-9':'D9','D-10 (Trd)':'D10'};
+
+  let html = '<table><thead><tr><th>Dasha</th><th>Planet</th>';
+  vargas.forEach(v => {
+    html += `<th>${vLabels[v]} Sits</th><th>${vLabels[v]} Owns</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  dashaPlants.forEach(({label, planet}) => {
+    html += `<tr><td style="color:var(--gold);font-weight:600">${label}</td><td style="color:var(--ink);font-weight:600">${planet}</td>`;
+    vargas.forEach(v => {
+      const vd = p.vargas && p.vargas[v];
+      const info = planetHouseInfo(planet, vd);
+      if(info) {
+        html += `<td style="color:var(--blue)">H${info.sits}</td><td style="color:var(--green)">H${info.owns}</td>`;
+      } else {
+        html += '<td style="color:#ccc">—</td><td style="color:#ccc">—</td>';
+      }
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+// ── EVENTS ──────────────────────────────────────────────────────────
+function evRow(ev, p){
+  const lbl=EV_TYPES.find(([v])=>v===ev.type)?.[1]||'Other';
+  const dasha=[ev.maha,ev.antar,ev.pratyantar].filter(Boolean).join(' / ');
+  const detailId='evd-'+ev.id;
+  const chevId='evc-'+ev.id;
+  return`<div class="ev-row" id="evr-${ev.id}">
+    <div class="ev-row-summary" onclick="toggleEvDetail('${ev.id}')">
+      <span class="evd">${ev.date||'—'}</span>
+      <span class="evb t-${ev.type||'other'}">${lbl}</span>
+      <span class="evds">${dasha||'—'}</span>
+      <button class="ibtn sm dbtn" onclick="event.stopPropagation();delEvent('${ev.id}')">✕</button>
+      <span class="ev-chevron" id="${chevId}">▼</span>
+    </div>
+    <div class="ev-detail" id="${detailId}">
+      ${p ? dashaDetailHTML(ev, p) : ''}
+    </div>
+  </div>`;
+}
+
+function toggleEvDetail(eid) {
+  const det = document.getElementById('evd-'+eid);
+  const chev = document.getElementById('evc-'+eid);
+  if(!det) return;
+  det.classList.toggle('open');
+  if(chev) chev.classList.toggle('open');
+}
+function addEvent(){
+  const p=cp();if(!p)return;
+  const date=document.getElementById('ev-d').value;
+  const type=document.getElementById('ev-t').value;
+  const maha=document.getElementById('ev-m').value;
+  const antar=document.getElementById('ev-a').value;
+  const pratyantar=document.getElementById('ev-p').value;
+  if(!date||!type){toast('Date and event type required');return;}
+  p.events.push({id:uid(),date,type,maha,antar,pratyantar});save();renderSidebar();
+  const evs=(p.events||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  document.getElementById('ev-list').innerHTML=evs.map(ev=>evRow(ev,p)).join('');
+  document.getElementById('ev-count-lbl').textContent=p.events.length+' RECORDED';
+  toast('Event added');
+}
+function delEvent(eid){
+  const p=cp();if(!p)return;
+  if(!confirm('Delete?'))return;
+  p.events=p.events.filter(e=>e.id!==eid);save();renderSidebar();
+  const evs=(p.events||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  document.getElementById('ev-list').innerHTML=!evs.length?'<div style="color:#7a7268;font-size:13px;padding:10px 0;font-style:italic">No events yet</div>':evs.map(ev=>evRow(ev,p)).join('');
+  document.getElementById('ev-count-lbl').textContent=p.events.length+' RECORDED';
+}
+
+// ── PERSON CRUD ──────────────────────────────────────────────────────
+function openNewPerson(){
+  ['np-name','np-dob','np-tob','np-pob'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('np-gender').value='';
+  document.getElementById('modal-np').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('np-name').focus(),50);
+}
+function savePerson(){
+  const name=document.getElementById('np-name').value.trim();
+  if(!name){toast('Name required');return;}
+  const p={id:uid(),name,dob:document.getElementById('np-dob').value,tob:document.getElementById('np-tob').value,pob:document.getElementById('np-pob').value,gender:document.getElementById('np-gender').value,rawVarga:'',vargas:{},notes:'',events:[],created:new Date().toISOString()};
+  db.persons.push(p);save();closeModal('modal-np');
+  cid=p.id;renderSidebar();renderPview();toast('Person created');
+}
+function deletePerson(id){
+  if(!confirm('Delete this person and all data?'))return;
+  db.persons=db.persons.filter(p=>p.id!==id);cid=null;save();renderSidebar();
+  document.getElementById('welcome').classList.remove('hidden');
+  document.getElementById('pview').classList.add('hidden');
+  toast('Deleted');
+}
+function selectPerson(id){cid=id;renderSidebar();renderPview();}
+
+// ── SIDEBAR ──────────────────────────────────────────────────────────
+function renderSidebar(){
+  document.getElementById('pcount').textContent=db.persons.length;
+  const el=document.getElementById('plist');
+  if(!db.persons.length){el.innerHTML='<div class="sb-empty">No records yet.<br>Add a person to begin.</div>';return;}
+  el.innerHTML=db.persons.map(p=>`
+    <div class="pitem${p.id===cid?' active':''}" onclick="selectPerson('${p.id}')">
+      <div class="pitem-name">${p.name}</div>
+      <div class="pitem-meta">${p.dob||'—'} · ${(p.events||[]).length} events</div>
+    </div>`).join('');
+}
+
+// ── IMPORT / EXPORT ──────────────────────────────────────────────────
+function exportJSON(){
+  const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download=`jyotish_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Exported');
+}
+function triggerImport(){document.getElementById('file-import').click();}
+function handleImport(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{
+    const d=JSON.parse(ev.target.result);if(!d.persons)throw 0;
+    if(!confirm(`Merge ${d.persons.length} persons?`))return;
+    d.persons.forEach(inc=>{if(!db.persons.find(x=>x.id===inc.id))db.persons.push(inc);});
+    save();renderSidebar();toast(`Imported ${d.persons.length} persons`);
+  }catch{toast('Import failed');}};
+  r.readAsText(f);e.target.value='';
+}
+function closeModal(id){document.getElementById(id).classList.add('hidden');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hidden');}));
+
+load();renderSidebar();
+</script>
+</body>
+</html>
