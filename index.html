@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,19 +127,31 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 .research-panel{padding:24px 28px;max-width:900px}
 .research-panel h2{font-family:'Libre Baskerville',serif;font-size:20px;font-weight:700;margin-bottom:4px}
 .research-panel .sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);letter-spacing:.12em;margin-bottom:20px}
-.query-box{border:1px solid var(--border2);background:#fff;margin-bottom:16px}
-.query-input{display:flex;align-items:stretch;border-bottom:1px solid var(--rule)}
-.query-input textarea{border:none;background:transparent;padding:12px 14px;font-family:'EB Garamond',serif;font-size:15px;min-height:60px;resize:none;flex:1}
-.query-send{border:none;border-left:1px solid var(--rule);background:var(--gold);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;padding:0 18px;cursor:pointer;transition:background .15s;white-space:nowrap}
-.query-send:hover{background:#6b5010}
-.query-send:disabled{background:#ccc;cursor:not-allowed}
-.query-examples{padding:8px 14px;display:flex;flex-wrap:wrap;gap:6px}
-.qex{font-family:'JetBrains Mono',monospace;font-size:8px;padding:3px 9px;border:1px solid var(--border);color:var(--ink3);cursor:pointer;background:var(--bg2);transition:all .15s}
-.qex:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+/* QUERY BUILDER */
+.qb-section{margin-bottom:14px}
+.qb-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.qb-card{border:1px solid var(--border2);background:#fff;padding:10px 14px}
+.qb-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qb-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3)}
+.qb-sel{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 7px;border:1px solid var(--border2);background:#fff;color:var(--ink);height:26px;outline:none}
+.qb-sel:focus{border-color:var(--gold)}
+.cond-block{margin-bottom:4px}
+.cond-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--rule)}
+.cond-row:last-of-type{border-bottom:none}
+.join-row{display:flex;align-items:center;gap:8px;padding:4px 0}
+.join-line{flex:1;height:1px;background:var(--rule)}
+.join-btn{font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 10px;border:1px solid var(--border2);background:var(--bg2);color:var(--ink3);cursor:pointer;border-radius:20px;transition:all .15s}
+.join-btn.and{border-color:#1a3a6b;color:#1a3a6b;background:#eef2fb}
+.join-btn.or{border-color:#8b6914;color:#8b6914;background:#fdf8ec}
+.cond-remove{font-family:'JetBrains Mono',monospace;font-size:10px;width:20px;height:20px;border:1px solid var(--rule);background:transparent;color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cond-remove:hover{border-color:var(--red);color:var(--red)}
+.add-cond-btn{font-family:'JetBrains Mono',monospace;font-size:9px;padding:4px 10px;border:1px dashed var(--border2);background:transparent;color:var(--ink3);cursor:pointer;margin-top:8px;transition:all .15s}
+.add-cond-btn:hover{border-color:var(--gold);color:var(--gold)}
+.qb-sql{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);background:var(--bg2);border:1px solid var(--rule);padding:10px 12px;line-height:1.8;margin-bottom:14px;white-space:pre-wrap;word-break:break-all}
+/* RESULTS */
 .query-result{border:1px solid var(--border2);background:#fff;min-height:80px}
 .qr-hd{background:var(--bg3);border-bottom:1px solid var(--rule);padding:7px 14px;display:flex;align-items:center;gap:10px}
 .qr-hd-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--ink3);text-transform:uppercase}
-.qr-sql{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .qr-body{padding:14px}
 .qr-empty{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);font-style:italic;text-align:center;padding:24px}
 .qr-thinking{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);text-align:center;padding:24px;animation:pulse 1.4s ease-in-out infinite}
@@ -150,7 +161,6 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 .result-table td{padding:5px 10px;border-bottom:1px solid var(--rule);font-size:12px;white-space:nowrap}
 .result-table tr:hover td{background:var(--gold-bg)}
 .result-count{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:6px 14px;border-top:1px solid var(--rule);background:var(--bg3)}
-.ai-explanation{font-family:'EB Garamond',serif;font-size:14px;line-height:1.7;color:var(--ink2);padding:10px 14px;border-top:1px solid var(--rule);background:var(--gold-bg);border-left:3px solid var(--gold)}
 </style>
 </head>
 <body>
@@ -190,23 +200,58 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
     <div id="research-view" class="hidden">
       <div class="research-panel">
         <h2>Research Query</h2>
-        <div class="sub">ASK IN NATURAL LANGUAGE — AI TRANSLATES TO SQL</div>
+        <div class="sub">BUILD CONDITIONS — QUERY ACROSS ALL CHARTS</div>
 
-        <div class="query-box">
-          <div class="query-input">
-            <textarea id="query-text" placeholder="e.g. Show all charts where promotion happened during dasha of the D1 10th lord" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();runQuery()}"></textarea>
-            <button class="query-send" id="query-btn" onclick="runQuery()">Ask →</button>
-          </div>
-          <div class="query-examples">
-            <span class="qex" onclick="setQuery(this)">promotions during D1 10th lord dasha</span>
-            <span class="qex" onclick="setQuery(this)">job switches during Jupiter maha dasha</span>
-            <span class="qex" onclick="setQuery(this)">charts where maha dasha lord sits in D1 10th house at promotion</span>
-            <span class="qex" onclick="setQuery(this)">all events during Saturn maha dasha</span>
-            <span class="qex" onclick="setQuery(this)">promotions where D10 10th lord was active</span>
-            <span class="qex" onclick="setQuery(this)">persons with Sun in D1 7th house</span>
+        <!-- EVENT FILTER -->
+        <div class="qb-section">
+          <div class="qb-label">Event filter</div>
+          <div class="qb-card">
+            <div class="qb-row">
+              <span class="qb-lbl">Event type</span>
+              <select id="qb-evtype" class="qb-sel">
+                <option value="">Any event</option>
+                <option value="promotion">Promotion</option>
+                <option value="job_switch">Job Switch</option>
+                <option value="layoff">Layoff</option>
+                <option value="move_abroad">Move Abroad</option>
+                <option value="business_start">Business Start</option>
+                <option value="big_jump">Big Jump</option>
+                <option value="career_break">Career Break</option>
+                <option value="marriage">Marriage</option>
+                <option value="child_birth">Child Birth</option>
+                <option value="illness">Illness</option>
+                <option value="accident">Accident</option>
+                <option value="other">Other</option>
+              </select>
+              <span class="qb-lbl" style="margin-left:16px">Year from</span>
+              <input type="number" id="qb-yr-from" class="qb-sel" style="width:80px" placeholder="1950">
+              <span class="qb-lbl">to</span>
+              <input type="number" id="qb-yr-to" class="qb-sel" style="width:80px" placeholder="2030">
+            </div>
           </div>
         </div>
 
+        <!-- CONDITIONS -->
+        <div class="qb-section">
+          <div class="qb-label">Conditions <span style="font-weight:400;font-size:9px;letter-spacing:0;text-transform:none;color:var(--ink3)">— combine with AND / OR</span></div>
+          <div class="qb-card" id="qb-conds">
+            <!-- conditions injected by JS -->
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+          <button class="pbtn" onclick="runQB()">Run →</button>
+          <button class="ibtn sm" onclick="clearQB()">Clear</button>
+        </div>
+
+        <!-- SQL PREVIEW -->
+        <div class="qb-section" id="qb-sql-wrap" style="display:none">
+          <div class="qb-label">Generated SQL</div>
+          <div class="qb-sql" id="qb-sql"></div>
+        </div>
+
+        <!-- RESULTS -->
         <div class="query-result" id="query-result">
           <div class="qr-empty">Results will appear here</div>
         </div>
@@ -389,11 +434,24 @@ async function deletePersonFromDB(pid) {
 async function loadEventsForPerson(personId) {
   const { data, error } = await sb.from('events').select('*').eq('person_id', personId).order('event_date');
   if (error) { toast('Events load error'); return []; }
-  // Normalize to old format
   return (data||[]).map(e=>({
     id: e.id, date: e.event_date, type: e.event_type,
     maha: e.maha, antar: e.antar, pratyantar: e.pratyantar, notes: e.notes
   }));
+}
+
+const VARGA_DB_TO_KEY = {'D1':'D-1','D9':'D-9','D10':'D-10 (Trd)','D24':'D-24 (Trd)'};
+
+async function loadVargasForPerson(personId) {
+  const { data, error } = await sb.from('planet_positions').select('*').eq('person_id', personId);
+  if (error || !data || !data.length) return {};
+  const vargas = {};
+  data.forEach(row => {
+    const key = VARGA_DB_TO_KEY[row.varga] || row.varga;
+    if (!vargas[key]) vargas[key] = {};
+    vargas[key][row.planet] = { sign: row.sign, deg: row.deg, min: row.min };
+  });
+  return vargas;
 }
 
 // ── PARSER ──────────────────────────────────────────────────────────
@@ -513,9 +571,12 @@ async function renderPview(){
   const pv=document.getElementById('pview');pv.classList.remove('hidden');
   const p=cp();if(!p){pv.innerHTML='';return;}
 
-  // Load events from Supabase
+  // Load events and vargas from Supabase
   const events = await loadEventsForPerson(p.id);
-  p._events = events; // cache locally
+  p._events = events;
+  if (!p.vargas || !Object.keys(p.vargas).length) {
+    p.vargas = await loadVargasForPerson(p.id);
+  }
 
   const dashaOpts=`<option value="">—</option>${DASHAS.map(d=>`<option>${d}</option>`).join('')}`;
   const typeOpts=`<option value="">— Event Type —</option>${EV_TYPES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}`;
@@ -818,6 +879,7 @@ function switchTab(tab){
     document.getElementById('welcome').classList.add('hidden');
     document.getElementById('pview').classList.add('hidden');
     document.getElementById('research-view').classList.remove('hidden');
+    if(!qbConds.length) qbInit();
   } else {
     document.getElementById('research-view').classList.add('hidden');
     if(cid){renderPview();}
@@ -825,146 +887,283 @@ function switchTab(tab){
   }
 }
 
-// ── RESEARCH / AI QUERY ───────────────────────────────────────────────
-function setQuery(el){
-  document.getElementById('query-text').value=el.textContent;
+// ── QUERY BUILDER ────────────────────────────────────────────────────
+const QB_PLANETS = ['Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'];
+const QB_HOUSES  = [1,2,3,4,5,6,7,8,9,10,11,12];
+const QB_VARGAS  = ['D1','D9','D10','D24'];
+const QB_LEVELS  = [
+  {v:'maha',    l:'Maha dasha'},
+  {v:'antar',   l:'Antar dasha'},
+  {v:'pratyantar', l:'Pratyantar'},
+  {v:'maha_or_antar', l:'Maha OR Antar'},
+  {v:'any',     l:'Any dasha level'},
+];
+const QB_COND_TYPES = [
+  {v:'rules', l:'rules house'},
+  {v:'sits',  l:'sits in house'},
+  {v:'is',    l:'is planet'},
+];
+
+let qbConds = []; // [{id, level, condType, house, varga, planet, join}]
+let qbNextId = 1;
+
+function qbInit() {
+  qbConds = [];
+  qbNextId = 1;
+  qbAddCond();
+  qbRender();
 }
 
-async function runQuery(){
-  const q=document.getElementById('query-text').value.trim();
-  if(!q)return;
-  const btn=document.getElementById('query-btn');
-  btn.disabled=true;btn.textContent='…';
-
-  const resultEl=document.getElementById('query-result');
-  resultEl.innerHTML='<div class="qr-thinking">Thinking…</div>';
-
-  // Build schema context for Claude
-  const schemaContext=`
-You are a SQL expert for a Jyotish (Vedic astrology) research database in Supabase (PostgreSQL).
-
-TABLES:
-- persons(id, name, dob, tob, pob, gender, notes)
-- planet_positions(id, person_id, varga, planet, sign, house, deg, min)
-  varga values: 'D1','D9','D10','D24'
-  planet values: 'Lagna','Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'
-- chart_lords(id, person_id, varga, house, lord, co_lord)
-  Each row = which planet rules which house for a person in a varga chart
-  co_lord is set for joint-owned signs (Rahu/Ketu system)
-- events(id, person_id, event_date, event_type, maha, antar, pratyantar)
-  event_type: 'promotion','job_switch','layoff','marriage','child_birth','illness','accident','move_abroad','business_start','big_jump','career_break','other'
-  maha/antar/pratyantar = dasha planet names
-
-VIEWS:
-- event_dasha_houses: events joined with dasha planet house positions in D1
-- event_dasha_lordship: events with dasha lords matched to chart lordships
-
-RASHI OWNERSHIP (joint lord system):
-- Virgo: Mercury (primary), Rahu (joint)
-- Scorpio: Mars (primary), Ketu (joint)
-- Aquarius: Saturn (primary), Rahu (joint)
-- Pisces: Jupiter (primary), Ketu (joint)
-
-KEY QUERY PATTERNS:
-- "10th lord dasha" = maha or antar planet that rules house 10 in chart_lords
-- "planet sits in 10th house" = planet_positions.house = 10
-- "D1 10th lord" = chart_lords WHERE varga='D1' AND house=10
-
-IMPORTANT: For "10th lord dasha" queries, join events with chart_lords to check if maha/antar matches the lord/co_lord of house 10.
-
-Return ONLY a JSON object with exactly these fields:
-{
-  "sql": "the SELECT query",
-  "explanation": "one sentence plain English explanation of what was searched"
+function qbAddCond(join='AND') {
+  qbConds.push({
+    id: qbNextId++,
+    level: 'maha',
+    condType: 'rules',
+    house: 10,
+    varga: 'D1',
+    planet: 'Jupiter',
+    join: join // join with PREVIOUS condition
+  });
+  qbRender();
 }
-No markdown, no backticks, no extra text.`;
 
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system: schemaContext,
-        messages:[{role:'user',content:q}]
-      })
-    });
-    const data = await resp.json();
-    const raw = data.content?.[0]?.text||'';
+function qbRemoveCond(id) {
+  if(qbConds.length <= 1) return;
+  qbConds = qbConds.filter(c => c.id !== id);
+  // ensure first cond has no join shown
+  qbRender();
+}
 
-    let parsed;
-    try { parsed = JSON.parse(raw.replace(/```json|```/g,'').trim()); }
-    catch(e) { throw new Error('Could not parse AI response: '+raw.slice(0,200)); }
+function qbToggleJoin(id) {
+  const c = qbConds.find(c => c.id === id);
+  if(c) c.join = c.join === 'AND' ? 'OR' : 'AND';
+  qbRender();
+}
 
-    const sql = parsed.sql;
-    const explanation = parsed.explanation;
+function qbUpdate(id, field, val) {
+  const c = qbConds.find(c => c.id === id);
+  if(c) c[field] = val;
+  // no re-render needed — just update internal state
+}
 
-    // Run the SQL via Supabase rpc (raw SQL)
-    const { data: rows, error } = await sb.rpc('run_research_query', { query_sql: sql });
+function qbRender() {
+  const wrap = document.getElementById('qb-conds');
+  if(!wrap) return;
 
-    if (error) {
-      // Supabase doesn't allow raw SQL by default — fall back to REST queries
-      resultEl.innerHTML=`
-        <div class="qr-hd">
-          <span class="qr-hd-lbl">Generated SQL</span>
-          <span class="qr-sql">${sql}</span>
-        </div>
-        <div class="qr-body">
-          <div class="ai-explanation">${explanation}</div>
-          <div style="margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);padding:8px 0">
-            To run raw SQL queries, you need to create a Supabase function. See instructions below.
-          </div>
-          <div style="background:var(--bg2);border:1px solid var(--rule);padding:12px;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.8;color:var(--ink2)">
-            <strong>One-time setup in Supabase SQL Editor:</strong><br><br>
-            <code style="background:var(--bg3);padding:2px 4px">CREATE OR REPLACE FUNCTION run_research_query(query_sql text)<br>
-            RETURNS json LANGUAGE plpgsql SECURITY DEFINER AS $$<br>
-            DECLARE result json;<br>
-            BEGIN<br>
-            &nbsp;&nbsp;EXECUTE 'SELECT json_agg(r) FROM (' || query_sql || ') r' INTO result;<br>
-            &nbsp;&nbsp;RETURN COALESCE(result, '[]'::json);<br>
-            END; $$;</code><br><br>
-            Paste this in Supabase → SQL Editor → Run. Then queries will work here automatically.
-          </div>
-        </div>`;
-      btn.disabled=false;btn.textContent='Ask →';
-      return;
+  let html = '';
+  qbConds.forEach((c, idx) => {
+    // join connector (before each cond except first)
+    if(idx > 0) {
+      html += `<div class="join-row">
+        <div class="join-line"></div>
+        <button class="join-btn ${c.join.toLowerCase()}" onclick="qbToggleJoin(${c.id})">${c.join}</button>
+        <div class="join-line"></div>
+      </div>`;
     }
 
-    const results = Array.isArray(rows) ? rows : (rows ? [rows] : []);
-    renderResults(resultEl, sql, explanation, results);
+    // dasha level select
+    const levelOpts = QB_LEVELS.map(l =>
+      `<option value="${l.v}"${c.level===l.v?' selected':''}>${l.l}</option>`
+    ).join('');
 
-  } catch(err) {
-    resultEl.innerHTML=`<div class="qr-body"><div style="color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;padding:12px">Error: ${err.message}</div></div>`;
-  }
+    // cond type select
+    const ctOpts = QB_COND_TYPES.map(t =>
+      `<option value="${t.v}"${c.condType===t.v?' selected':''}>${t.l}</option>`
+    ).join('');
 
-  btn.disabled=false;btn.textContent='Ask →';
+    // house or planet depending on condType
+    let rightSel = '';
+    if(c.condType === 'is') {
+      const plOpts = QB_PLANETS.map(p =>
+        `<option value="${p}"${c.planet===p?' selected':''}>${p}</option>`
+      ).join('');
+      rightSel = `<select class="qb-sel" style="width:90px" onchange="qbUpdate(${c.id},'planet',this.value)">${plOpts}</select>`;
+    } else {
+      const hOpts = QB_HOUSES.map(h =>
+        `<option value="${h}"${c.house==h?' selected':''}>${h}</option>`
+      ).join('');
+      const vOpts = QB_VARGAS.map(v =>
+        `<option value="${v}"${c.varga===v?' selected':''}>${v}</option>`
+      ).join('');
+      rightSel = `
+        <select class="qb-sel" style="width:55px" onchange="qbUpdate(${c.id},'house',parseInt(this.value))">${hOpts}</select>
+        <span class="qb-lbl">in</span>
+        <select class="qb-sel" style="width:55px" onchange="qbUpdate(${c.id},'varga',this.value)">${vOpts}</select>`;
+    }
+
+    html += `<div class="cond-row" data-id="${c.id}">
+      <select class="qb-sel" style="width:130px" onchange="qbUpdate(${c.id},'level',this.value)">${levelOpts}</select>
+      <select class="qb-sel" style="width:120px" onchange="qbChangeCT(${c.id},this.value)">${ctOpts}</select>
+      ${rightSel}
+      <button class="cond-remove" onclick="qbRemoveCond(${c.id})" title="Remove">×</button>
+    </div>`;
+  });
+
+  html += `<button class="add-cond-btn" onclick="qbAddCond('AND')">+ add condition</button>`;
+  wrap.innerHTML = html;
 }
 
-function renderResults(el, sql, explanation, rows){
-  if(!rows||!rows.length){
-    el.innerHTML=`
-      <div class="qr-hd"><span class="qr-hd-lbl">Query</span><span class="qr-sql">${sql}</span></div>
-      <div class="qr-body">
-        <div class="ai-explanation">${explanation}</div>
-        <div class="qr-empty">No matching charts found</div>
-      </div>`;
+function qbChangeCT(id, val) {
+  const c = qbConds.find(c => c.id === id);
+  if(!c) return;
+  c.condType = val;
+  qbRender();
+}
+
+// ── BUILD SQL FROM CONDITIONS ─────────────────────────────────────────
+function qbBuildSQL() {
+  const evType = document.getElementById('qb-evtype').value;
+  const yrFrom = document.getElementById('qb-yr-from').value;
+  const yrTo   = document.getElementById('qb-yr-to').value;
+
+  // Read current state of selects directly (in case user changed without triggering onchange)
+  document.querySelectorAll('#qb-conds .cond-row').forEach(row => {
+    const id = parseInt(row.dataset.id);
+    const c = qbConds.find(c => c.id === id);
+    if(!c) return;
+    const sels = row.querySelectorAll('select');
+    c.level = sels[0]?.value || c.level;
+    c.condType = sels[1]?.value || c.condType;
+    if(c.condType === 'is') {
+      c.planet = sels[2]?.value || c.planet;
+    } else {
+      c.house = parseInt(sels[2]?.value) || c.house;
+      c.varga = sels[3]?.value || c.varga;
+    }
+  });
+
+  const joins = [];
+  const sqlParts = [];
+  const fromParts = [
+    'events e',
+    'JOIN persons p ON p.id = e.person_id'
+  ];
+
+  // Track aliases used
+  let aliasIdx = 0;
+
+  qbConds.forEach((c, idx) => {
+    const alias = `cl${aliasIdx++}`;
+
+    // Determine which dasha columns to check
+    let dashaLevels = [];
+    if(c.level === 'maha') dashaLevels = ['e.maha'];
+    else if(c.level === 'antar') dashaLevels = ['e.antar'];
+    else if(c.level === 'pratyantar') dashaLevels = ['e.pratyantar'];
+    else if(c.level === 'maha_or_antar') dashaLevels = ['e.maha','e.antar'];
+    else dashaLevels = ['e.maha','e.antar','e.pratyantar']; // any
+
+    let condSQL = '';
+
+    if(c.condType === 'is') {
+      // Dasha planet IS a specific planet
+      const checks = dashaLevels.map(d => `${d} = '${c.planet}'`);
+      condSQL = checks.length > 1 ? `(${checks.join(' OR ')})` : checks[0];
+
+    } else if(c.condType === 'rules') {
+      // Dasha planet RULES house N in varga X
+      // Join chart_lords for this house/varga
+      fromParts.push(
+        `LEFT JOIN chart_lords ${alias} ON ${alias}.person_id = e.person_id AND ${alias}.varga = '${c.varga}' AND ${alias}.house = ${c.house}`
+      );
+      const checks = dashaLevels.map(d =>
+        `(${d} = ${alias}.lord OR ${d} = ${alias}.co_lord)`
+      );
+      condSQL = checks.length > 1 ? `(${checks.join(' OR ')})` : checks[0];
+
+    } else if(c.condType === 'sits') {
+      // Dasha planet SITS IN house N in varga X
+      // Join planet_positions for each dasha level
+      const sitChecks = dashaLevels.map(d => {
+        const a2 = `pp${aliasIdx++}`;
+        fromParts.push(
+          `LEFT JOIN planet_positions ${a2} ON ${a2}.person_id = e.person_id AND ${a2}.varga = '${c.varga}' AND ${a2}.house = ${c.house} AND ${a2}.planet = ${d}`
+        );
+        return `${a2}.id IS NOT NULL`;
+      });
+      condSQL = sitChecks.length > 1 ? `(${sitChecks.join(' OR ')})` : sitChecks[0];
+    }
+
+    if(idx === 0) {
+      sqlParts.push(condSQL);
+    } else {
+      sqlParts.push({ join: c.join, sql: condSQL });
+    }
+  });
+
+  // Build WHERE clause
+  const whereParts = [];
+  if(evType) whereParts.push(`e.event_type = '${evType}'`);
+  if(yrFrom) whereParts.push(`EXTRACT(YEAR FROM e.event_date) >= ${yrFrom}`);
+  if(yrTo)   whereParts.push(`EXTRACT(YEAR FROM e.event_date) <= ${yrTo}`);
+
+  // Build condition clause
+  let condClause = sqlParts[0] || '';
+  for(let i=1;i<sqlParts.length;i++) {
+    condClause += ` ${sqlParts[i].join} ${sqlParts[i].sql}`;
+  }
+  if(condClause) whereParts.push(`(${condClause})`);
+
+  const sql = [
+    `SELECT p.name, p.dob, p.pob,`,
+    `       e.event_date, e.event_type,`,
+    `       e.maha, e.antar, e.pratyantar`,
+    `FROM ${fromParts.join('\n     ')}`,
+    whereParts.length ? `WHERE ${whereParts.join('\n  AND ')}` : '',
+    `ORDER BY e.event_date`
+  ].filter(Boolean).join('\n');
+
+  return sql;
+}
+
+async function runQB() {
+  const sql = qbBuildSQL();
+
+  // Show SQL
+  const sqlWrap = document.getElementById('qb-sql-wrap');
+  const sqlEl   = document.getElementById('qb-sql');
+  sqlWrap.style.display = 'block';
+  sqlEl.textContent = sql;
+
+  const resultEl = document.getElementById('query-result');
+  resultEl.innerHTML = '<div class="qr-thinking">Querying…</div>';
+
+  try {
+    const { data: rows, error } = await sb.rpc('run_research_query', { query_sql: sql });
+    if(error) throw new Error(error.message);
+    const results = Array.isArray(rows) ? rows : (rows ? [rows] : []);
+    renderQBResults(resultEl, results);
+  } catch(err) {
+    resultEl.innerHTML = `<div class="qr-body"><div style="color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;padding:12px">Error: ${err.message}</div></div>`;
+  }
+}
+
+function renderQBResults(el, rows) {
+  if(!rows || !rows.length) {
+    el.innerHTML = '<div class="qr-empty">No matching charts found</div>';
     return;
   }
-  const cols=Object.keys(rows[0]);
-  const tableRows=rows.map(r=>`<tr>${cols.map(c=>`<td>${r[c]??'—'}</td>`).join('')}</tr>`).join('');
-  el.innerHTML=`
-    <div class="qr-hd"><span class="qr-hd-lbl">Query</span><span class="qr-sql">${sql}</span></div>
-    <div class="qr-body">
-      <div class="ai-explanation">${explanation}</div>
-      <div style="overflow-x:auto;margin-top:12px">
-        <table class="result-table">
-          <thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
-          <tbody>${tableRows}</tbody>
-        </table>
-      </div>
+  const cols = Object.keys(rows[0]);
+  const tableRows = rows.map(r =>
+    `<tr>${cols.map(c => `<td>${r[c]??'—'}</td>`).join('')}</tr>`
+  ).join('');
+  el.innerHTML = `
+    <div style="overflow-x:auto">
+      <table class="result-table">
+        <thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
     </div>
     <div class="result-count">${rows.length} result${rows.length!==1?'s':''}</div>`;
+}
+
+function clearQB() {
+  qbInit();
+  document.getElementById('qb-sql-wrap').style.display = 'none';
+  document.getElementById('query-result').innerHTML = '<div class="qr-empty">Results will appear here</div>';
+  document.getElementById('qb-evtype').value = '';
+  document.getElementById('qb-yr-from').value = '';
+  document.getElementById('qb-yr-to').value = '';
 }
 
 // ── IMPORT / EXPORT ───────────────────────────────────────────────────
