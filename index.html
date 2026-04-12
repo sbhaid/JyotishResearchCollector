@@ -79,8 +79,24 @@ textarea{resize:vertical;font-family:'JetBrains Mono',monospace;font-size:10.5px
 .pdg{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink2)}
 .psg{font-style:italic;color:var(--ink)}
 .ph{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);font-weight:500}
-.ev-form{display:grid;grid-template-columns:110px 1fr 100px 100px 100px auto;gap:8px;align-items:flex-end;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);margin-bottom:8px}
+
+/* ── META PARSED GRID ── */
+.meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.meta-card{background:var(--bg2);border:1px solid var(--rule);padding:8px 10px}
+.meta-card-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--ink3);text-transform:uppercase;margin-bottom:3px}
+.meta-card-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink);font-weight:600}
+.meta-card-sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);margin-top:1px}
+.meta-planet-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:10px}
+.meta-planet-tbl th{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--ink3);padding:4px 8px;border-bottom:2px solid var(--border2);background:var(--bg2);text-align:left;text-transform:uppercase}
+.meta-planet-tbl td{padding:3px 8px;border-bottom:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:10px}
+.meta-planet-tbl tr:hover td{background:var(--gold-bg)}
+.ka-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:8px;padding:1px 6px;border-radius:20px;border:1px solid var(--gold);color:var(--gold);background:var(--gold-bg);margin-left:4px}
+
+/* ── EVENTS ── */
+.ev-form{display:grid;grid-template-columns:110px 1fr 100px 100px 100px auto;gap:8px;align-items:flex-end;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);margin-bottom:4px}
 .ev-form .fg{margin:0}
+.ev-transit-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:flex-end;padding:0 12px 10px;background:var(--bg2);border:1px solid var(--border);border-top:none;margin-bottom:8px}
+.ev-transit-row .fg{margin:0}
 .ev-list{display:flex;flex-direction:column;gap:4px}
 .ev-row{border:1px solid var(--rule);background:#fff;font-size:12px;cursor:pointer}
 .ev-row:hover{background:var(--gold-bg)}
@@ -91,12 +107,26 @@ textarea{resize:vertical;font-family:'JetBrains Mono',monospace;font-size:10.5px
 .ev-detail th{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--ink3);padding:4px 8px;border-bottom:1px solid var(--border);text-align:left;background:var(--bg3);text-transform:uppercase}
 .ev-detail td{padding:4px 8px;border-bottom:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:10px}
 .ev-detail tr:hover td{background:var(--gold-bg)}
+.ev-transit-note{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink2);background:var(--bg3);border:1px solid var(--rule);padding:5px 8px;margin-top:8px;line-height:1.6;white-space:pre-wrap}
+.ev-transit-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:3px}
 .ev-chevron{font-size:9px;color:var(--ink3);margin-left:auto;transition:transform .2s}
 .ev-chevron.open{transform:rotate(180deg)}
 .evd{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3)}
 .evb{font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 7px;border-radius:20px;border:1px solid;text-align:center}
 .evds{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3)}
-.t-job_switch{border-color:#2c5f8a;color:#1a3f6b;background:#eef4fb}
+.t-first_job{border-color:#1a5c2e;color:#0f3d1e;background:#e8f5ee}
+.t-voluntary_resignation{border-color:#5c4a1a;color:#3d2e08;background:#f5f0e0}
+/* Editable transit / observation panel */
+.ev-edit-panel{display:none;border-top:1px solid var(--rule);background:#fff;padding:12px 14px}
+.ev-edit-panel.open{display:block}
+.ev-edit-panel-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ev-edit-panel-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.ev-edit-panel textarea{width:100%;font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;padding:8px 10px;border:1px solid var(--border2);background:var(--bg2);color:var(--ink);resize:vertical;outline:none;min-height:80px}
+.ev-edit-panel textarea:focus{border-color:var(--gold);background:#fff}
+.ev-edit-panel-ft{display:flex;gap:6px;margin-top:6px;justify-content:flex-end}
+.ev-edit-toggle{font-family:'JetBrains Mono',monospace;font-size:8px;padding:2px 8px;border:1px solid var(--border2);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s}
+.ev-edit-toggle:hover{border-color:var(--gold);color:var(--gold)}
+.ev-edit-toggle.active{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
 .t-promotion{border-color:#2e7d52;color:#1a5c2e;background:#eef7f2}
 .t-layoff{border-color:#8a2c2c;color:#6b1a1a;background:#fdf0f0}
 .t-move_abroad{border-color:#6b4c8a;color:#4a2c6b;background:#f5f0fb}
@@ -127,7 +157,6 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 .research-panel{padding:24px 28px;max-width:900px}
 .research-panel h2{font-family:'Libre Baskerville',serif;font-size:20px;font-weight:700;margin-bottom:4px}
 .research-panel .sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);letter-spacing:.12em;margin-bottom:20px}
-/* QUERY BUILDER */
 .qb-section{margin-bottom:14px}
 .qb-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
 .qb-card{border:1px solid var(--border2);background:#fff;padding:10px 14px}
@@ -135,7 +164,6 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 .qb-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3)}
 .qb-sel{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 7px;border:1px solid var(--border2);background:#fff;color:var(--ink);height:26px;outline:none}
 .qb-sel:focus{border-color:var(--gold)}
-.cond-block{margin-bottom:4px}
 .cond-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--rule)}
 .cond-row:last-of-type{border-bottom:none}
 .join-row{display:flex;align-items:center;gap:8px;padding:4px 0}
@@ -148,7 +176,6 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 .add-cond-btn{font-family:'JetBrains Mono',monospace;font-size:9px;padding:4px 10px;border:1px dashed var(--border2);background:transparent;color:var(--ink3);cursor:pointer;margin-top:8px;transition:all .15s}
 .add-cond-btn:hover{border-color:var(--gold);color:var(--gold)}
 .qb-sql{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);background:var(--bg2);border:1px solid var(--rule);padding:10px 12px;line-height:1.8;margin-bottom:14px;white-space:pre-wrap;word-break:break-all}
-/* RESULTS */
 .query-result{border:1px solid var(--border2);background:#fff;min-height:80px}
 .qr-hd{background:var(--bg3);border-bottom:1px solid var(--rule);padding:7px 14px;display:flex;align-items:center;gap:10px}
 .qr-hd-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--ink3);text-transform:uppercase}
@@ -171,6 +198,7 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
     <span class="db-status" id="db-status">⬤ CONNECTING</span>
     <button class="btn" onclick="triggerImport()">↑ Import</button>
     <button class="btn" onclick="exportJSON()">↓ Export JSON</button>
+    <button class="btn" onclick="exportCSV()">↓ Export CSV</button>
     <button class="btn" style="border-color:#c8a84c;color:#f5eed8;background:rgba(139,105,20,.35)" onclick="openNewPerson()">+ New Person</button>
   </div>
 </div>
@@ -201,8 +229,6 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
       <div class="research-panel">
         <h2>Research Query</h2>
         <div class="sub">BUILD CONDITIONS — QUERY ACROSS ALL CHARTS</div>
-
-        <!-- EVENT FILTER -->
         <div class="qb-section">
           <div class="qb-label">Event filter</div>
           <div class="qb-card">
@@ -210,8 +236,10 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
               <span class="qb-lbl">Event type</span>
               <select id="qb-evtype" class="qb-sel">
                 <option value="">Any event</option>
+                <option value="first_job">First Job</option>
                 <option value="promotion">Promotion</option>
                 <option value="job_switch">Job Switch</option>
+                <option value="voluntary_resignation">Voluntary Resignation</option>
                 <option value="layoff">Layoff</option>
                 <option value="move_abroad">Move Abroad</option>
                 <option value="business_start">Business Start</option>
@@ -230,28 +258,18 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
             </div>
           </div>
         </div>
-
-        <!-- CONDITIONS -->
         <div class="qb-section">
           <div class="qb-label">Conditions <span style="font-weight:400;font-size:9px;letter-spacing:0;text-transform:none;color:var(--ink3)">— combine with AND / OR</span></div>
-          <div class="qb-card" id="qb-conds">
-            <!-- conditions injected by JS -->
-          </div>
+          <div class="qb-card" id="qb-conds"></div>
         </div>
-
-        <!-- ACTIONS -->
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
           <button class="pbtn" onclick="runQB()">Run →</button>
           <button class="ibtn sm" onclick="clearQB()">Clear</button>
         </div>
-
-        <!-- SQL PREVIEW -->
         <div class="qb-section" id="qb-sql-wrap" style="display:none">
           <div class="qb-label">Generated SQL</div>
           <div class="qb-sql" id="qb-sql"></div>
         </div>
-
-        <!-- RESULTS -->
         <div class="query-result" id="query-result">
           <div class="qr-empty">Results will appear here</div>
         </div>
@@ -284,7 +302,7 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 </div>
 
 <script>
-// ── SUPABASE ────────────────────────────────────────────────────────
+// ── SUPABASE ─────────────────────────────────────────────────────────
 const SUPA_URL = 'https://pfraylsfscjpjcywrswh.supabase.co';
 const SUPA_KEY = 'sb_publishable_XQeo2ybCqh2o8HNfHyeEeQ_7aTsBdYK';
 const { createClient } = supabase;
@@ -302,41 +320,31 @@ async function checkConnection() {
   }
 }
 
-// ── CONSTANTS ───────────────────────────────────────────────────────
+// ── CONSTANTS ────────────────────────────────────────────────────────
 const SIGNS=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
 const SIGN_SHORT=['Ar','Ta','Ge','Cn','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
 const SIGN_MAP={Ar:'Aries',Ta:'Taurus',Ge:'Gemini',Ca:'Cancer',Cn:'Cancer',Le:'Leo',Vi:'Virgo',Li:'Libra',Sc:'Scorpio',Sa:'Sagittarius',Sg:'Sagittarius',Cp:'Capricorn',Aq:'Aquarius',Pi:'Pisces'};
 const PLANETS=['Lagna','Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'];
 const PL_ABBR={Lagna:'As',Sun:'Su',Moon:'Mo',Mars:'Ma',Mercury:'Me',Jupiter:'Ju',Venus:'Ve',Saturn:'Sa',Rahu:'Ra',Ketu:'Ke'};
 const DASHAS=['Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury','Ketu','Venus'];
-const EV_TYPES=[['job_switch','Job Switch'],['promotion','Promotion'],['layoff','Layoff'],['move_abroad','Move Abroad'],['business_start','Business Start'],['big_jump','Big Jump'],['career_break','Career Break'],['marriage','Marriage'],['child_birth','Child Birth'],['illness','Illness'],['accident','Accident'],['other','Other']];
+const EV_TYPES=[['first_job','First Job'],['job_switch','Job Switch'],['promotion','Promotion'],['voluntary_resignation','Voluntary Resignation'],['layoff','Layoff'],['move_abroad','Move Abroad'],['business_start','Business Start'],['big_jump','Big Jump'],['career_break','Career Break'],['marriage','Marriage'],['child_birth','Child Birth'],['illness','Illness'],['accident','Accident'],['other','Other']];
 const SHOW_VARGAS=['D-1','D-9','D-10 (Trd)','D-24 (Trd)'];
 const VARGA_LBL={'D-1':'D1','D-9':'D9','D-10 (Trd)':'D10','D-24 (Trd)':'D24'};
-
-// Rashi ownership — your system
-const PLANET_OWNS={
-  Sun:['Leo'],Moon:['Cancer'],Mars:['Aries','Scorpio'],
-  Mercury:['Gemini','Virgo'],Jupiter:['Sagittarius','Pisces'],
-  Venus:['Taurus','Libra'],Saturn:['Capricorn','Aquarius'],
-  Rahu:['Aquarius','Virgo'],Ketu:['Scorpio','Pisces']
-};
+const PLANET_OWNS={Sun:['Leo'],Moon:['Cancer'],Mars:['Aries','Scorpio'],Mercury:['Gemini','Virgo'],Jupiter:['Sagittarius','Pisces'],Venus:['Taurus','Libra'],Saturn:['Capricorn','Aquarius'],Rahu:['Aquarius','Virgo'],Ketu:['Scorpio','Pisces']};
 const RASHI_OWNERS=[
-  {sign:'Aries',primary:'Mars',joint:null},
-  {sign:'Taurus',primary:'Venus',joint:null},
-  {sign:'Gemini',primary:'Mercury',joint:null},
-  {sign:'Cancer',primary:'Moon',joint:null},
-  {sign:'Leo',primary:'Sun',joint:null},
-  {sign:'Virgo',primary:'Mercury',joint:'Rahu'},
-  {sign:'Libra',primary:'Venus',joint:null},
-  {sign:'Scorpio',primary:'Mars',joint:'Ketu'},
-  {sign:'Sagittarius',primary:'Jupiter',joint:null},
-  {sign:'Capricorn',primary:'Saturn',joint:null},
-  {sign:'Aquarius',primary:'Saturn',joint:'Rahu'},
-  {sign:'Pisces',primary:'Jupiter',joint:'Ketu'},
+  {sign:'Aries',primary:'Mars',joint:null},{sign:'Taurus',primary:'Venus',joint:null},
+  {sign:'Gemini',primary:'Mercury',joint:null},{sign:'Cancer',primary:'Moon',joint:null},
+  {sign:'Leo',primary:'Sun',joint:null},{sign:'Virgo',primary:'Mercury',joint:'Rahu'},
+  {sign:'Libra',primary:'Venus',joint:null},{sign:'Scorpio',primary:'Mars',joint:'Ketu'},
+  {sign:'Sagittarius',primary:'Jupiter',joint:null},{sign:'Capricorn',primary:'Saturn',joint:null},
+  {sign:'Aquarius',primary:'Saturn',joint:'Rahu'},{sign:'Pisces',primary:'Jupiter',joint:'Ketu'},
 ];
 
-// ── LOCAL STATE ─────────────────────────────────────────────────────
-let persons = []; // loaded from Supabase
+// Chara Karaka abbreviations from JHora
+const CK_MAP={'AK':'Atmakaraka','AmK':'Amatyakaraka','BK':'Bhratrukaraka','MK':'Matrukaraka','PK':'Pitrukaraka','PiK':'Putrakaraka','GK':'Gnatikaraka','DK':'Darakaraka'};
+
+// ── LOCAL STATE ──────────────────────────────────────────────────────
+let persons = [];
 let cid = null;
 let currentTab = 'persons';
 
@@ -344,7 +352,6 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function cp(){return persons.find(p=>p.id===cid)}
 
 // ── SUPABASE CRUD ────────────────────────────────────────────────────
-
 async function loadPersons() {
   const { data, error } = await sb.from('persons').select('*').order('created_at', {ascending:false});
   if (error) { toast('DB load error: '+error.message); return; }
@@ -353,54 +360,40 @@ async function loadPersons() {
 }
 
 async function savePersonToDB(p) {
-  const { error } = await sb.from('persons').upsert({
+  const payload = {
     id: p.id, name: p.name, dob: p.dob||null, tob: p.tob||null,
     pob: p.pob||null, gender: p.gender||null,
-    notes: p.notes||null, raw_varga: p.rawVarga||null
-  });
+    notes: p.notes||null, raw_varga: p.rawVarga||p.raw_varga||null,
+    // NEW metadata fields
+    ak: p.ak||null, amk: p.amk||null, varna: p.varna||null,
+    d1_lagna: p.d1_lagna||null, meta_raw: p.meta_raw||null
+  };
+  const { error } = await sb.from('persons').upsert(payload);
   if (error) toast('Save error: '+error.message);
 }
 
 async function savePlanetPositionsToDB(personId, vargas) {
-  // Delete existing positions for this person, then insert fresh
   await sb.from('planet_positions').delete().eq('person_id', personId);
   await sb.from('chart_lords').delete().eq('person_id', personId);
-
   const rows = [];
   const lordRows = [];
-
   for (const [vargaKey, vdata] of Object.entries(vargas)) {
     const vLabel = VARGA_LBL[vargaKey] || vargaKey;
     const lagnaPos = vdata['Lagna'];
     if (!lagnaPos) continue;
-
     const lagnaIdx = SIGNS.indexOf(lagnaPos.sign);
     const signToHouse = {};
     for (let h=1;h<=12;h++) signToHouse[SIGNS[(lagnaIdx+h-1)%12]] = h;
-
-    // Planet positions
     for (const [planet, pos] of Object.entries(vdata)) {
       const house = signToHouse[pos.sign] || null;
-      rows.push({
-        person_id: personId, varga: vLabel,
-        planet, sign: pos.sign, house,
-        deg: pos.deg, min: pos.min
-      });
+      rows.push({person_id:personId,varga:vLabel,planet,sign:pos.sign,house,deg:pos.deg,min:pos.min});
     }
-
-    // Chart lords (one row per house)
     for (let h=1;h<=12;h++) {
       const sign = SIGNS[(lagnaIdx+h-1)%12];
       const owner = RASHI_OWNERS.find(r=>r.sign===sign);
-      if (owner) {
-        lordRows.push({
-          person_id: personId, varga: vLabel,
-          house: h, lord: owner.primary, co_lord: owner.joint||null
-        });
-      }
+      if (owner) lordRows.push({person_id:personId,varga:vLabel,house:h,lord:owner.primary,co_lord:owner.joint||null});
     }
   }
-
   if (rows.length) {
     const { error } = await sb.from('planet_positions').insert(rows);
     if (error) toast('Positions save error: '+error.message);
@@ -416,7 +409,9 @@ async function saveEventToDB(personId, ev) {
     id: ev.id, person_id: personId,
     event_date: ev.date||null, event_type: ev.type,
     maha: ev.maha||null, antar: ev.antar||null,
-    pratyantar: ev.pratyantar||null, notes: ev.notes||null
+    pratyantar: ev.pratyantar||null, notes: ev.notes||null,
+    transit_notes: ev.transit_notes||null,   // transit planets
+    observations: ev.observations||null       // NEW: researcher observations
   });
   if (error) toast('Event save error: '+error.message);
 }
@@ -435,8 +430,10 @@ async function loadEventsForPerson(personId) {
   const { data, error } = await sb.from('events').select('*').eq('person_id', personId).order('event_date');
   if (error) { toast('Events load error'); return []; }
   return (data||[]).map(e=>({
-    id: e.id, date: e.event_date, type: e.event_type,
-    maha: e.maha, antar: e.antar, pratyantar: e.pratyantar, notes: e.notes
+    id:e.id, date:e.event_date, type:e.event_type,
+    maha:e.maha, antar:e.antar, pratyantar:e.pratyantar,
+    notes:e.notes, transit_notes:e.transit_notes,
+    observations:e.observations  // NEW
   }));
 }
 
@@ -454,7 +451,103 @@ async function loadVargasForPerson(personId) {
   return vargas;
 }
 
-// ── PARSER ──────────────────────────────────────────────────────────
+// ── JHORA METADATA PARSER ────────────────────────────────────────────
+// Parses the JHora "Body / Longitude / Nakshatra / Pada / Rasi / Navamsa" table
+// Returns { ak, amk, varna, d1_lagna, planets: [{name, ck, ck_full, sign, nakshatra, pada, navamsa, deg, min, sec}] }
+function parseJHoraMeta(text) {
+  const lines = text.trim().split('\n').map(l => l.trim()).filter(Boolean);
+  const result = { ak: null, amk: null, d1_lagna: null, planets: [] };
+
+  for (const line of lines) {
+    // Skip header line
+    if (line.startsWith('Body')) continue;
+
+    // Parse: "Sun - AK   27 Pi 09' 51.10\"  Reva  4  Pi  Pi"
+    // or:    "Lagna       18 Ge 14' 20.99\"  Ardr  4  Ge  Pi"
+    const m = line.match(/^([A-Za-z]+(?:\s*-\s*[A-Za-z]+)?)\s+(\d+)\s+([A-Z][a-z])\s+(\d+)['′]\s+([\d.]+)[""]\s+(\w+)\s+(\d)\s+([A-Z][a-z])\s+([A-Z][a-z])/);
+    if (!m) continue;
+
+    const bodyRaw = m[1].trim();
+    const degVal  = parseInt(m[2]);
+    const signAbb = m[3];
+    const minVal  = parseInt(m[4]);
+    const nakshatra = m[6];
+    const pada    = parseInt(m[7]);
+    const rasiAbb = m[8];   // D1 sign (Rasi column)
+    const navAbb  = m[9];   // Navamsa sign
+
+    // Split planet name and karaka
+    let planetName = bodyRaw;
+    let ck = null;
+    if (bodyRaw.includes('-')) {
+      const parts = bodyRaw.split('-').map(s => s.trim());
+      planetName = parts[0];
+      ck = parts[1];
+    }
+
+    const sign = SIGN_MAP[rasiAbb] || SIGN_MAP[signAbb] || null;
+    const navamsa = SIGN_MAP[navAbb] || null;
+
+    if (planetName === 'Lagna') {
+      result.d1_lagna = sign;
+    }
+
+    // Identify AK and AmK
+    if (ck === 'AK')  result.ak  = planetName;
+    if (ck === 'AmK') result.amk = planetName;
+
+    result.planets.push({
+      name: planetName, ck, ck_full: ck ? (CK_MAP[ck] || ck) : null,
+      sign, nakshatra, pada, navamsa, deg: degVal, min: minVal
+    });
+  }
+  return result;
+}
+
+// Render the parsed metadata display
+function renderMetaParsed(parsed) {
+  if (!parsed || !parsed.planets.length) return '';
+
+  const cards = [
+    { lbl: 'D1 Lagna', val: parsed.d1_lagna || '—', sub: '' },
+    { lbl: 'Atmakaraka (AK)', val: parsed.ak || '—', sub: 'Soul significator' },
+    { lbl: 'Amatyakaraka (AmK)', val: parsed.amk || '—', sub: 'Career significator' },
+  ];
+
+  let html = `<div class="meta-grid">`;
+  cards.forEach(c => {
+    html += `<div class="meta-card">
+      <div class="meta-card-lbl">${c.lbl}</div>
+      <div class="meta-card-val">${c.val}</div>
+      ${c.sub ? `<div class="meta-card-sub">${c.sub}</div>` : ''}
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Planet table with karakas
+  html += `<table class="meta-planet-tbl" style="margin-top:12px">
+    <thead><tr>
+      <th>Planet</th><th>Karaka</th><th>Sign (D1)</th>
+      <th>Deg</th><th>Nakshatra</th><th>Pada</th><th>Navamsa</th>
+    </tr></thead><tbody>`;
+
+  parsed.planets.forEach(p => {
+    const kaBadge = p.ck ? `<span class="ka-badge">${p.ck}</span>` : '';
+    html += `<tr>
+      <td style="font-weight:600">${p.name}${kaBadge}</td>
+      <td style="color:var(--gold)">${p.ck_full || '—'}</td>
+      <td style="font-style:italic">${p.sign || '—'}</td>
+      <td style="color:var(--ink3)">${p.deg}°${p.min}'</td>
+      <td>${p.nakshatra || '—'}</td>
+      <td>${p.pada || '—'}</td>
+      <td style="font-style:italic">${p.navamsa || '—'}</td>
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  return html;
+}
+
+// ── VARGA TABLE PARSER ───────────────────────────────────────────────
 function parseVargaTable(text){
   const lines=text.trim().split('\n').map(l=>l.trim()).filter(Boolean);
   if(lines.length<2)return null;
@@ -528,11 +621,10 @@ function buildNIChart(vname,varData){
   for(let hi=0;hi<12;hi++){
     const signIdx=(ascSign+hi)%12;
     const isAsc=(hi===0);
-    const signShort=SIGN_SHORT[signIdx];
     const fill=isAsc?'#fdf3dc':'#ffffff';
     svg+=`<polygon points="${POLY[hi]}" fill="${fill}" stroke="${bc}" stroke-width="0.8"/>`;
     const[cx,cy]=CENTS[hi];
-    svg+=`<text x="${cx}" y="${cy-14}" text-anchor="middle" font-size="8" fill="#a09070" font-family="monospace">${signShort}</text>`;
+    svg+=`<text x="${cx}" y="${cy-14}" text-anchor="middle" font-size="8" fill="#a09070" font-family="monospace">${SIGN_SHORT[signIdx]}</text>`;
     if(isAsc)svg+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="7" fill="${blue}" font-weight="700" font-family="monospace">Lg</text>`;
     const ps=sp[signIdx];
     let py=isAsc&&ps.length?cy+8:cy+1;
@@ -571,12 +663,15 @@ async function renderPview(){
   const pv=document.getElementById('pview');pv.classList.remove('hidden');
   const p=cp();if(!p){pv.innerHTML='';return;}
 
-  // Load events and vargas from Supabase
   const events = await loadEventsForPerson(p.id);
   p._events = events;
   if (!p.vargas || !Object.keys(p.vargas).length) {
     p.vargas = await loadVargasForPerson(p.id);
   }
+
+  // Parse existing meta_raw if present
+  const metaParsed = p.meta_raw ? parseJHoraMeta(p.meta_raw) : null;
+  const metaDisplay = metaParsed ? renderMetaParsed(metaParsed) : '';
 
   const dashaOpts=`<option value="">—</option>${DASHAS.map(d=>`<option>${d}</option>`).join('')}`;
   const typeOpts=`<option value="">— Event Type —</option>${EV_TYPES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}`;
@@ -587,13 +682,28 @@ async function renderPview(){
     <div class="phdr">
       <div>
         <div class="pname">${p.name}</div>
-        <div class="pmeta">${p.dob||'—'} · ${p.tob||'—'} · ${p.pob||'—'}</div>
+        <div class="pmeta">${p.dob||'—'} · ${p.tob||'—'} · ${p.pob||'—'}${p.ak?' · AK: '+p.ak:''}${p.amk?' · AmK: '+p.amk:''}</div>
       </div>
       <button class="ibtn sm dbtn" onclick="deletePerson('${p.id}')">Delete</button>
     </div>
 
+    <!-- SECTION 1: JHORA META -->
     <div class="sec">
-      <div class="sec-ttl">1 — Chart Data <span>PASTE JHORA VARGA TABLE</span></div>
+      <div class="sec-ttl">1 — Jyotish Metadata <span>PASTE JHORA KARAKA TABLE</span></div>
+      <div class="paste-wrap">
+        <textarea id="paste-meta" rows="12" placeholder="Paste the JHora Body/Longitude/Nakshatra/Pada/Rasi/Navamsa table here...">${p.meta_raw||''}</textarea>
+        <div class="paste-bar">
+          <span class="pmsg" id="mmsg">${p.meta_raw?'Parsed ✓ — re-paste to update':'Paste JHora table and click Parse'}</span>
+          <button class="ibtn sm" onclick="doClearMeta()">Clear</button>
+          <button class="pbtn sm" onclick="doParseMeta()">Parse →</button>
+        </div>
+      </div>
+      <div id="meta-display">${metaDisplay}</div>
+    </div>
+
+    <!-- SECTION 2: VARGA TABLE -->
+    <div class="sec">
+      <div class="sec-ttl">2 — Chart Data <span>PASTE JHORA VARGA TABLE</span></div>
       <div class="paste-wrap">
         <textarea id="paste-varga" rows="8" placeholder="Paste the full JHora varga table here (Body D-1 D-9 D-10 (Trd)...)">${p.raw_varga||''}</textarea>
         <div class="paste-bar">
@@ -604,25 +714,29 @@ async function renderPview(){
       </div>
     </div>
 
+    <!-- SECTION 3: NOTES -->
     <div class="sec">
-      <div class="sec-ttl">2 — Notes &amp; Findings <span>JYOTISH OBSERVATIONS</span></div>
+      <div class="sec-ttl">3 — Notes &amp; Findings <span>JYOTISH OBSERVATIONS</span></div>
       <textarea id="notes-input" rows="6"
         style="width:100%;font-family:'EB Garamond',Georgia,serif;font-size:15px;line-height:1.7;padding:12px 14px;border:1px solid var(--border2);background:#fff;color:var(--ink);resize:vertical;outline:none;"
         oninput="saveNotes(this.value)">${p.notes||''}</textarea>
     </div>
 
+    <!-- SECTION 4: CHARTS -->
     <div class="sec">
-      <div class="sec-ttl">3 — Charts <span>D1 · D9 · D10 · D24</span></div>
+      <div class="sec-ttl">4 — Charts <span>D1 · D9 · D10 · D24</span></div>
       <div class="charts-grid" id="charts-grid">${renderAllCharts(p)}</div>
     </div>
 
+    <!-- RASHI REFERENCE -->
     <div class="sec">
       <div class="sec-ttl">Rashi Ownership <span>PRIMARY · JOINT</span></div>
       <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;font-size:11px">${rashaRefHTML()}</div>
     </div>
 
+    <!-- SECTION 5: EVENTS -->
     <div class="sec">
-      <div class="sec-ttl">4 — Life Events <span id="ev-count-lbl">${events.length} RECORDED</span></div>
+      <div class="sec-ttl">5 — Life Events <span id="ev-count-lbl">${events.length} RECORDED</span></div>
       <div class="ev-form">
         <div class="fg"><label>Date</label><input type="date" id="ev-d"></div>
         <div class="fg"><label>Type</label><select id="ev-t">${typeOpts}</select></div>
@@ -630,6 +744,11 @@ async function renderPview(){
         <div class="fg"><label>Antardasha</label><select id="ev-a">${dashaOpts}</select></div>
         <div class="fg"><label>Pratyantar</label><select id="ev-p">${dashaOpts}</select></div>
         <div><button class="pbtn" onclick="addEvent()">Add</button></div>
+      </div>
+      <div class="ev-transit-row">
+        <div class="fg"><label>Transit Notes at Event <span style="font-weight:400;text-transform:none;letter-spacing:0">(Jupiter H, Saturn H, Rahu H, any observations)</span></label>
+          <input type="text" id="ev-transit" placeholder="e.g. Ju 4H Cancer exalted, Sa 12H, Ra 3H Gemini...">
+        </div>
       </div>
       <div class="ev-list" id="ev-list">
         ${!evSorted.length
@@ -654,7 +773,47 @@ function renderAllCharts(p){
   }).join('');
 }
 
-// ── PARSE / CLEAR ────────────────────────────────────────────────────
+// ── PARSE META ───────────────────────────────────────────────────────
+async function doParseMeta(){
+  const p=cp();if(!p)return;
+  const raw=document.getElementById('paste-meta').value.trim();
+  const msg=document.getElementById('mmsg');
+  if(!raw){msg.textContent='Nothing to parse';msg.className='pmsg err';return;}
+
+  const parsed = parseJHoraMeta(raw);
+  if(!parsed.planets.length){msg.textContent='Parse failed — check format';msg.className='pmsg err';return;}
+
+  // Update person object
+  p.meta_raw = raw;
+  p.ak  = parsed.ak;
+  p.amk = parsed.amk;
+  p.d1_lagna = parsed.d1_lagna;
+
+  msg.textContent='Saving…';msg.className='pmsg';
+  await savePersonToDB(p);
+
+  msg.textContent=`Parsed ${parsed.planets.length} planets ✓ — AK: ${parsed.ak||'?'} · AmK: ${parsed.amk||'?'} · saved`;
+  msg.className='pmsg ok';
+
+  // Update display
+  document.getElementById('meta-display').innerHTML = renderMetaParsed(parsed);
+  // Update header meta line
+  document.querySelector('.pmeta').textContent =
+    `${p.dob||'—'} · ${p.tob||'—'} · ${p.pob||'—'}${p.ak?' · AK: '+p.ak:''}${p.amk?' · AmK: '+p.amk:''}`;
+  toast('Metadata saved');
+}
+
+async function doClearMeta(){
+  const p=cp();if(!p)return;
+  p.meta_raw='';p.ak=null;p.amk=null;p.d1_lagna=null;
+  await savePersonToDB(p);
+  document.getElementById('paste-meta').value='';
+  document.getElementById('mmsg').textContent='Cleared';
+  document.getElementById('mmsg').className='pmsg';
+  document.getElementById('meta-display').innerHTML='';
+}
+
+// ── PARSE VARGA ──────────────────────────────────────────────────────
 async function doParse(){
   const p=cp();if(!p)return;
   const raw=document.getElementById('paste-varga').value.trim();
@@ -662,8 +821,6 @@ async function doParse(){
   if(!raw){msg.textContent='Nothing to parse';msg.className='pmsg err';return;}
   const parsed=parseVargaTable(raw);
   if(!parsed||!Object.keys(parsed.planets).length){msg.textContent='Parse failed — check format';msg.className='pmsg err';return;}
-
-  // Build vargas object
   const vargas={};
   Object.entries(parsed.planets).forEach(([pl,vm])=>{
     Object.entries(vm).forEach(([vn,pos])=>{
@@ -671,16 +828,11 @@ async function doParse(){
       vargas[vn][pl]=pos;
     });
   });
-
-  p.raw_varga=raw;
-  p.vargas=vargas;
-
-  // Save to Supabase
+  p.raw_varga=raw;p.vargas=vargas;
   msg.textContent='Saving…';msg.className='pmsg';
-  await savePersonToDB({...p, rawVarga:raw});
-  await savePlanetPositionsToDB(p.id, vargas);
-
-  msg.textContent=`Parsed ${Object.keys(parsed.planets).length} planets × ${parsed.cols.length} vargas ✓ — saved to DB`;
+  await savePersonToDB({...p,rawVarga:raw});
+  await savePlanetPositionsToDB(p.id,vargas);
+  msg.textContent=`Parsed ${Object.keys(parsed.planets).length} planets × ${parsed.cols.length} vargas ✓ — saved`;
   msg.className='pmsg ok';
   document.getElementById('charts-grid').innerHTML=renderAllCharts(p);
   toast('Chart data saved');
@@ -689,7 +841,7 @@ async function doParse(){
 async function doClear(){
   const p=cp();if(!p)return;
   p.raw_varga='';p.vargas={};
-  await savePersonToDB({...p, rawVarga:''});
+  await savePersonToDB({...p,rawVarga:''});
   await sb.from('planet_positions').delete().eq('person_id',p.id);
   await sb.from('chart_lords').delete().eq('person_id',p.id);
   document.getElementById('paste-varga').value='';
@@ -735,41 +887,98 @@ function planetHouseInfo(planet,varData){
 
 function dashaDetailHTML(ev,p){
   const dashaPlants=[{label:'Maha',planet:ev.maha},{label:'Antar',planet:ev.antar},{label:'Pratyantar',planet:ev.pratyantar}].filter(d=>d.planet);
-  if(!dashaPlants.length)return'<div style="color:#aaa;font-size:11px;font-style:italic">No dasha recorded</div>';
+  const pVargas=p.vargas||p._vargas||{};
   const vargas_=['D-1','D-9','D-10 (Trd)'];
   const vLabels={'D-1':'D1','D-9':'D9','D-10 (Trd)':'D10'};
-  const pVargas = p.vargas||p._vargas||{};
-  let html='<table><thead><tr><th>Dasha</th><th>Planet</th>';
-  vargas_.forEach(v=>{html+=`<th>${vLabels[v]} Sits</th><th>${vLabels[v]} Owns</th>`;});
-  html+='</tr></thead><tbody>';
-  dashaPlants.forEach(({label,planet})=>{
-    html+=`<tr><td style="color:var(--gold);font-weight:600">${label}</td><td style="color:var(--ink);font-weight:600">${planet}</td>`;
-    vargas_.forEach(v=>{
-      const vd=pVargas[v];
-      const info=planetHouseInfo(planet,vd);
-      if(info){html+=`<td style="color:var(--blue)">H${info.sits}</td><td style="color:var(--green)">H${info.owns}</td>`;}
-      else{html+='<td style="color:#ccc">—</td><td style="color:#ccc">—</td>';}
+
+  // Dasha table
+  let dashaHTML='<div style="color:#aaa;font-size:11px;font-style:italic">No dasha recorded</div>';
+  if(dashaPlants.length){
+    let tbl='<table><thead><tr><th>Dasha</th><th>Planet</th>';
+    vargas_.forEach(v=>{tbl+=`<th>${vLabels[v]} Sits</th><th>${vLabels[v]} Owns</th>`;});
+    tbl+='</tr></thead><tbody>';
+    dashaPlants.forEach(({label,planet})=>{
+      tbl+=`<tr><td style="color:var(--gold);font-weight:600">${label}</td><td style="color:var(--ink);font-weight:600">${planet}</td>`;
+      vargas_.forEach(v=>{
+        const vd=pVargas[v];
+        const info=planetHouseInfo(planet,vd);
+        if(info){tbl+=`<td style="color:var(--blue)">H${info.sits}</td><td style="color:var(--green)">H${info.owns}</td>`;}
+        else{tbl+='<td style="color:#ccc">—</td><td style="color:#ccc">—</td>';}
+      });
+      tbl+='</tr>';
     });
-    html+='</tr>';
-  });
-  html+='</tbody></table>';
-  return html;
+    tbl+='</tbody></table>';
+    dashaHTML=tbl;
+  }
+
+  // Transit display (read-only summary shown in detail)
+  const transitDisplay = ev.transit_notes
+    ? `<div style="margin-top:8px"><div class="ev-transit-lbl">Transits</div><div class="ev-transit-note">${ev.transit_notes}</div></div>`
+    : '';
+
+  // Observation display
+  const obsDisplay = ev.observations
+    ? `<div style="margin-top:8px"><div class="ev-transit-lbl">Observations</div><div class="ev-transit-note" style="font-family:'EB Garamond',Georgia,serif;font-size:13px;line-height:1.7">${ev.observations}</div></div>`
+    : '';
+
+  return dashaHTML + transitDisplay + obsDisplay;
 }
 
 // ── EVENTS ────────────────────────────────────────────────────────────
 function evRow(ev,p){
   const lbl=EV_TYPES.find(([v])=>v===ev.type)?.[1]||'Other';
   const dasha=[ev.maha,ev.antar,ev.pratyantar].filter(Boolean).join(' / ');
+  const hasTransit = ev.transit_notes ? '🪐' : '';
+  const hasObs = ev.observations ? '📝' : '';
   return`<div class="ev-row" id="evr-${ev.id}">
     <div class="ev-row-summary" onclick="toggleEvDetail('${ev.id}')">
       <span class="evd">${ev.date||'—'}</span>
       <span class="evb t-${ev.type||'other'}">${lbl}</span>
       <span class="evds">${dasha||'—'}</span>
-      <button class="ibtn sm dbtn" onclick="event.stopPropagation();delEvent('${ev.id}')">✕</button>
-      <span class="ev-chevron" id="evc-${ev.id}">▼</span>
+      ${hasTransit?`<span style="font-size:10px" title="Has transit notes">${hasTransit}</span>`:''}
+      ${hasObs?`<span style="font-size:10px" title="Has observations">${hasObs}</span>`:''}
+      <span style="margin-left:auto;display:flex;gap:4px;align-items:center">
+        <button class="ev-edit-toggle" id="transit-tog-${ev.id}" title="Edit transits"
+          onclick="event.stopPropagation();toggleEditPanel('transit','${ev.id}')">🪐 Transit</button>
+        <button class="ev-edit-toggle" id="obs-tog-${ev.id}" title="Edit observations"
+          onclick="event.stopPropagation();toggleEditPanel('obs','${ev.id}')">📝 Observations</button>
+        <button class="ibtn sm dbtn" onclick="event.stopPropagation();delEvent('${ev.id}')">✕</button>
+        <span class="ev-chevron" id="evc-${ev.id}">▼</span>
+      </span>
     </div>
+
+    <!-- DASHA DETAIL (collapsible) -->
     <div class="ev-detail" id="evd-${ev.id}">
       ${p?dashaDetailHTML(ev,p):''}
+    </div>
+
+    <!-- TRANSIT EDIT PANEL (collapsible, editable) -->
+    <div class="ev-edit-panel" id="transit-panel-${ev.id}">
+      <div class="ev-edit-panel-hd">
+        <span class="ev-edit-panel-lbl">🪐 Transit Notes</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink3)">Jupiter H, Saturn H, Rahu/Ketu H, any transit observations</span>
+      </div>
+      <textarea id="transit-txt-${ev.id}" rows="3"
+        placeholder="e.g. Ju 4H Cancer exalted, Sa 12H Pisces, Ra 3H Gemini, Ke 9H Sagittarius..."
+        >${ev.transit_notes||''}</textarea>
+      <div class="ev-edit-panel-ft">
+        <button class="ibtn sm" onclick="saveEvField('${ev.id}','transit_notes','transit-txt-${ev.id}')">Save</button>
+      </div>
+    </div>
+
+    <!-- OBSERVATIONS EDIT PANEL (collapsible, editable, large) -->
+    <div class="ev-edit-panel" id="obs-panel-${ev.id}">
+      <div class="ev-edit-panel-hd">
+        <span class="ev-edit-panel-lbl">📝 Astrological Observations</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink3)">Patterns, yogas, connections noticed for this event</span>
+      </div>
+      <textarea id="obs-txt-${ev.id}" rows="6"
+        style="font-family:'EB Garamond',Georgia,serif;font-size:14px;line-height:1.75;min-height:120px"
+        placeholder="Write your astrological observations for this event — dasha lord connections, transit patterns, yoga activation, house lord activity, research notes..."
+        >${ev.observations||''}</textarea>
+      <div class="ev-edit-panel-ft">
+        <button class="ibtn sm" onclick="saveEvField('${ev.id}','observations','obs-txt-${ev.id}')">Save</button>
+      </div>
     </div>
   </div>`;
 }
@@ -782,6 +991,56 @@ function toggleEvDetail(eid){
   if(chev)chev.classList.toggle('open');
 }
 
+function toggleEditPanel(type, eid){
+  const panelId = type==='transit' ? `transit-panel-${eid}` : `obs-panel-${eid}`;
+  const togId   = type==='transit' ? `transit-tog-${eid}`  : `obs-tog-${eid}`;
+  const panel = document.getElementById(panelId);
+  const tog   = document.getElementById(togId);
+  if(!panel)return;
+  const isOpen = panel.classList.toggle('open');
+  if(tog) tog.classList.toggle('active', isOpen);
+  // Close the other panel if open
+  const otherId = type==='transit' ? `obs-panel-${eid}` : `transit-panel-${eid}`;
+  const otherTogId = type==='transit' ? `obs-tog-${eid}` : `transit-tog-${eid}`;
+  const other = document.getElementById(otherId);
+  const otherTog = document.getElementById(otherTogId);
+  if(other && other.classList.contains('open') && isOpen){
+    other.classList.remove('open');
+    if(otherTog) otherTog.classList.remove('active');
+  }
+}
+
+async function saveEvField(eid, field, inputId){
+  const p=cp();if(!p)return;
+  const val=document.getElementById(inputId)?.value.trim()||null;
+  // Update local event object
+  const ev=(p._events||[]).find(e=>e.id===eid);
+  if(ev) ev[field]=val;
+  // Save to Supabase — only update the specific field
+  const { error } = await sb.from('events').update({[field]:val}).eq('id',eid);
+  if(error){toast('Save error: '+error.message);return;}
+  toast('Saved');
+  // Refresh dasha detail to show updated content
+  const detEl=document.getElementById('evd-'+eid);
+  if(detEl && p) detEl.innerHTML=dashaDetailHTML(ev,p);
+  // Update indicator badges in summary row
+  const summaryRow=document.querySelector(`#evr-${eid} .ev-row-summary`);
+  if(summaryRow){
+    // Re-render the row in place
+    const evRowEl=document.getElementById('evr-'+eid);
+    if(evRowEl && ev && p){
+      const wasTransitOpen=document.getElementById(`transit-panel-${eid}`)?.classList.contains('open');
+      const wasObsOpen=document.getElementById(`obs-panel-${eid}`)?.classList.contains('open');
+      const wasDetailOpen=detEl?.classList.contains('open');
+      evRowEl.outerHTML=evRow(ev,p);
+      // Restore open states
+      if(wasDetailOpen){document.getElementById('evd-'+eid)?.classList.add('open');document.getElementById('evc-'+eid)?.classList.add('open');}
+      if(wasTransitOpen){document.getElementById(`transit-panel-${eid}`)?.classList.add('open');document.getElementById(`transit-tog-${eid}`)?.classList.add('active');}
+      if(wasObsOpen){document.getElementById(`obs-panel-${eid}`)?.classList.add('open');document.getElementById(`obs-tog-${eid}`)?.classList.add('active');}
+    }
+  }
+}
+
 async function addEvent(){
   const p=cp();if(!p)return;
   const date=document.getElementById('ev-d').value;
@@ -789,14 +1048,17 @@ async function addEvent(){
   const maha=document.getElementById('ev-m').value;
   const antar=document.getElementById('ev-a').value;
   const pratyantar=document.getElementById('ev-p').value;
+  const transit_notes=document.getElementById('ev-transit').value.trim();
   if(!date||!type){toast('Date and event type required');return;}
-  const ev={id:uid(),date,type,maha,antar,pratyantar};
+  const ev={id:uid(),date,type,maha,antar,pratyantar,transit_notes:transit_notes||null,observations:null};
   await saveEventToDB(p.id,ev);
   if(!p._events)p._events=[];
   p._events.push(ev);
   const evs=p._events.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
   document.getElementById('ev-list').innerHTML=evs.map(e=>evRow(e,p)).join('');
   document.getElementById('ev-count-lbl').textContent=p._events.length+' RECORDED';
+  // Clear transit field
+  document.getElementById('ev-transit').value='';
   renderSidebar();
   toast('Event saved');
 }
@@ -830,6 +1092,7 @@ async function savePerson(){
     pob:document.getElementById('np-pob').value||null,
     gender:document.getElementById('np-gender').value||null,
     raw_varga:'',vargas:{},notes:'',
+    ak:null,amk:null,d1_lagna:null,meta_raw:null,
     created_at:new Date().toISOString()
   };
   await savePersonToDB({...p,rawVarga:''});
@@ -852,11 +1115,7 @@ async function deletePerson(id){
   toast('Deleted');
 }
 
-function selectPerson(id){
-  cid=id;
-  renderSidebar();
-  renderPview();
-}
+function selectPerson(id){cid=id;renderSidebar();renderPview();}
 
 // ── SIDEBAR ───────────────────────────────────────────────────────────
 function renderSidebar(){
@@ -866,7 +1125,7 @@ function renderSidebar(){
   el.innerHTML=persons.map(p=>`
   <div class="pitem${p.id===cid?' active':''}" onclick="selectPerson('${p.id}')">
     <div class="pitem-name">${p.name}</div>
-    <div class="pitem-meta">${p.dob||'—'}</div>
+    <div class="pitem-meta">${p.dob||'—'}${p.ak?' · AK:'+p.ak:''}</div>
   </div>`).join('');
 }
 
@@ -879,7 +1138,7 @@ function switchTab(tab){
     document.getElementById('welcome').classList.add('hidden');
     document.getElementById('pview').classList.add('hidden');
     document.getElementById('research-view').classList.remove('hidden');
-    if(!qbConds.length) qbInit();
+    if(!qbConds.length)qbInit();
   } else {
     document.getElementById('research-view').classList.add('hidden');
     if(cid){renderPview();}
@@ -887,267 +1146,175 @@ function switchTab(tab){
   }
 }
 
-// ── QUERY BUILDER ────────────────────────────────────────────────────
-const QB_PLANETS = ['Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'];
-const QB_HOUSES  = [1,2,3,4,5,6,7,8,9,10,11,12];
-const QB_VARGAS  = ['D1','D9','D10','D24'];
-const QB_LEVELS  = [
-  {v:'maha',    l:'Maha dasha'},
-  {v:'antar',   l:'Antar dasha'},
-  {v:'pratyantar', l:'Pratyantar'},
-  {v:'maha_or_antar', l:'Maha OR Antar'},
-  {v:'any',     l:'Any dasha level'},
+// ── QUERY BUILDER ─────────────────────────────────────────────────────
+const QB_PLANETS=['Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'];
+const QB_HOUSES=[1,2,3,4,5,6,7,8,9,10,11,12];
+const QB_VARGAS=['D1','D9','D10','D24'];
+const QB_LEVELS=[
+  {v:'maha',l:'Maha dasha'},{v:'antar',l:'Antar dasha'},
+  {v:'pratyantar',l:'Pratyantar'},{v:'maha_or_antar',l:'Maha OR Antar'},
+  {v:'any',l:'Any dasha level'},
 ];
-const QB_COND_TYPES = [
-  {v:'rules', l:'rules house'},
-  {v:'sits',  l:'sits in house'},
-  {v:'is',    l:'is planet'},
+const QB_COND_TYPES=[
+  {v:'rules',l:'rules house'},{v:'sits',l:'sits in house'},{v:'is',l:'is planet'},
 ];
 
-let qbConds = []; // [{id, level, condType, house, varga, planet, join}]
-let qbNextId = 1;
+let qbConds=[];
+let qbNextId=1;
 
-function qbInit() {
-  qbConds = [];
-  qbNextId = 1;
-  qbAddCond();
+function qbInit(){qbConds=[];qbNextId=1;qbAddCond();qbRender();}
+
+function qbAddCond(join='AND'){
+  qbConds.push({id:qbNextId++,level:'maha',condType:'rules',house:10,varga:'D1',planet:'Jupiter',join});
   qbRender();
 }
 
-function qbAddCond(join='AND') {
-  qbConds.push({
-    id: qbNextId++,
-    level: 'maha',
-    condType: 'rules',
-    house: 10,
-    varga: 'D1',
-    planet: 'Jupiter',
-    join: join // join with PREVIOUS condition
-  });
+function qbRemoveCond(id){
+  if(qbConds.length<=1)return;
+  qbConds=qbConds.filter(c=>c.id!==id);
   qbRender();
 }
 
-function qbRemoveCond(id) {
-  if(qbConds.length <= 1) return;
-  qbConds = qbConds.filter(c => c.id !== id);
-  // ensure first cond has no join shown
+function qbToggleJoin(id){
+  const c=qbConds.find(c=>c.id===id);
+  if(c)c.join=c.join==='AND'?'OR':'AND';
   qbRender();
 }
 
-function qbToggleJoin(id) {
-  const c = qbConds.find(c => c.id === id);
-  if(c) c.join = c.join === 'AND' ? 'OR' : 'AND';
-  qbRender();
+function qbUpdate(id,field,val){
+  const c=qbConds.find(c=>c.id===id);
+  if(c)c[field]=val;
 }
 
-function qbUpdate(id, field, val) {
-  const c = qbConds.find(c => c.id === id);
-  if(c) c[field] = val;
-  // no re-render needed — just update internal state
-}
-
-function qbRender() {
-  const wrap = document.getElementById('qb-conds');
-  if(!wrap) return;
-
-  let html = '';
-  qbConds.forEach((c, idx) => {
-    // join connector (before each cond except first)
-    if(idx > 0) {
-      html += `<div class="join-row">
+function qbRender(){
+  const wrap=document.getElementById('qb-conds');
+  if(!wrap)return;
+  let html='';
+  qbConds.forEach((c,idx)=>{
+    if(idx>0){
+      html+=`<div class="join-row">
         <div class="join-line"></div>
         <button class="join-btn ${c.join.toLowerCase()}" onclick="qbToggleJoin(${c.id})">${c.join}</button>
         <div class="join-line"></div>
       </div>`;
     }
-
-    // dasha level select
-    const levelOpts = QB_LEVELS.map(l =>
-      `<option value="${l.v}"${c.level===l.v?' selected':''}>${l.l}</option>`
-    ).join('');
-
-    // cond type select
-    const ctOpts = QB_COND_TYPES.map(t =>
-      `<option value="${t.v}"${c.condType===t.v?' selected':''}>${t.l}</option>`
-    ).join('');
-
-    // house or planet depending on condType
-    let rightSel = '';
-    if(c.condType === 'is') {
-      const plOpts = QB_PLANETS.map(p =>
-        `<option value="${p}"${c.planet===p?' selected':''}>${p}</option>`
-      ).join('');
-      rightSel = `<select class="qb-sel" style="width:90px" onchange="qbUpdate(${c.id},'planet',this.value)">${plOpts}</select>`;
+    const levelOpts=QB_LEVELS.map(l=>`<option value="${l.v}"${c.level===l.v?' selected':''}>${l.l}</option>`).join('');
+    const ctOpts=QB_COND_TYPES.map(t=>`<option value="${t.v}"${c.condType===t.v?' selected':''}>${t.l}</option>`).join('');
+    let rightSel='';
+    if(c.condType==='is'){
+      const plOpts=QB_PLANETS.map(p=>`<option value="${p}"${c.planet===p?' selected':''}>${p}</option>`).join('');
+      rightSel=`<select class="qb-sel" style="width:90px" onchange="qbUpdate(${c.id},'planet',this.value)">${plOpts}</select>`;
     } else {
-      const hOpts = QB_HOUSES.map(h =>
-        `<option value="${h}"${c.house==h?' selected':''}>${h}</option>`
-      ).join('');
-      const vOpts = QB_VARGAS.map(v =>
-        `<option value="${v}"${c.varga===v?' selected':''}>${v}</option>`
-      ).join('');
-      rightSel = `
+      const hOpts=QB_HOUSES.map(h=>`<option value="${h}"${c.house==h?' selected':''}>${h}</option>`).join('');
+      const vOpts=QB_VARGAS.map(v=>`<option value="${v}"${c.varga===v?' selected':''}>${v}</option>`).join('');
+      rightSel=`
         <select class="qb-sel" style="width:55px" onchange="qbUpdate(${c.id},'house',parseInt(this.value))">${hOpts}</select>
         <span class="qb-lbl">in</span>
         <select class="qb-sel" style="width:55px" onchange="qbUpdate(${c.id},'varga',this.value)">${vOpts}</select>`;
     }
-
-    html += `<div class="cond-row" data-id="${c.id}">
+    html+=`<div class="cond-row" data-id="${c.id}">
       <select class="qb-sel" style="width:130px" onchange="qbUpdate(${c.id},'level',this.value)">${levelOpts}</select>
       <select class="qb-sel" style="width:120px" onchange="qbChangeCT(${c.id},this.value)">${ctOpts}</select>
       ${rightSel}
       <button class="cond-remove" onclick="qbRemoveCond(${c.id})" title="Remove">×</button>
     </div>`;
   });
-
-  html += `<button class="add-cond-btn" onclick="qbAddCond('AND')">+ add condition</button>`;
-  wrap.innerHTML = html;
+  html+=`<button class="add-cond-btn" onclick="qbAddCond('AND')">+ add condition</button>`;
+  wrap.innerHTML=html;
 }
 
-function qbChangeCT(id, val) {
-  const c = qbConds.find(c => c.id === id);
-  if(!c) return;
-  c.condType = val;
+function qbChangeCT(id,val){
+  const c=qbConds.find(c=>c.id===id);
+  if(!c)return;
+  c.condType=val;
   qbRender();
 }
 
-// ── BUILD SQL FROM CONDITIONS ─────────────────────────────────────────
-function qbBuildSQL() {
-  const evType = document.getElementById('qb-evtype').value;
-  const yrFrom = document.getElementById('qb-yr-from').value;
-  const yrTo   = document.getElementById('qb-yr-to').value;
-
-  // Read current state of selects directly (in case user changed without triggering onchange)
-  document.querySelectorAll('#qb-conds .cond-row').forEach(row => {
-    const id = parseInt(row.dataset.id);
-    const c = qbConds.find(c => c.id === id);
-    if(!c) return;
-    const sels = row.querySelectorAll('select');
-    c.level = sels[0]?.value || c.level;
-    c.condType = sels[1]?.value || c.condType;
-    if(c.condType === 'is') {
-      c.planet = sels[2]?.value || c.planet;
-    } else {
-      c.house = parseInt(sels[2]?.value) || c.house;
-      c.varga = sels[3]?.value || c.varga;
-    }
+function qbBuildSQL(){
+  const evType=document.getElementById('qb-evtype').value;
+  const yrFrom=document.getElementById('qb-yr-from').value;
+  const yrTo=document.getElementById('qb-yr-to').value;
+  document.querySelectorAll('#qb-conds .cond-row').forEach(row=>{
+    const id=parseInt(row.dataset.id);
+    const c=qbConds.find(c=>c.id===id);
+    if(!c)return;
+    const sels=row.querySelectorAll('select');
+    c.level=sels[0]?.value||c.level;
+    c.condType=sels[1]?.value||c.condType;
+    if(c.condType==='is'){c.planet=sels[2]?.value||c.planet;}
+    else{c.house=parseInt(sels[2]?.value)||c.house;c.varga=sels[3]?.value||c.varga;}
   });
-
-  const joins = [];
-  const sqlParts = [];
-  const fromParts = [
-    'events e',
-    'JOIN persons p ON p.id = e.person_id'
-  ];
-
-  // Track aliases used
-  let aliasIdx = 0;
-
-  qbConds.forEach((c, idx) => {
-    const alias = `cl${aliasIdx++}`;
-
-    // Determine which dasha columns to check
-    let dashaLevels = [];
-    if(c.level === 'maha') dashaLevels = ['e.maha'];
-    else if(c.level === 'antar') dashaLevels = ['e.antar'];
-    else if(c.level === 'pratyantar') dashaLevels = ['e.pratyantar'];
-    else if(c.level === 'maha_or_antar') dashaLevels = ['e.maha','e.antar'];
-    else dashaLevels = ['e.maha','e.antar','e.pratyantar']; // any
-
-    let condSQL = '';
-
-    if(c.condType === 'is') {
-      // Dasha planet IS a specific planet
-      const checks = dashaLevels.map(d => `${d} = '${c.planet}'`);
-      condSQL = checks.length > 1 ? `(${checks.join(' OR ')})` : checks[0];
-
-    } else if(c.condType === 'rules') {
-      // Dasha planet RULES house N in varga X
-      // Join chart_lords for this house/varga
-      fromParts.push(
-        `LEFT JOIN chart_lords ${alias} ON ${alias}.person_id = e.person_id AND ${alias}.varga = '${c.varga}' AND ${alias}.house = ${c.house}`
-      );
-      const checks = dashaLevels.map(d =>
-        `(${d} = ${alias}.lord OR ${d} = ${alias}.co_lord)`
-      );
-      condSQL = checks.length > 1 ? `(${checks.join(' OR ')})` : checks[0];
-
-    } else if(c.condType === 'sits') {
-      // Dasha planet SITS IN house N in varga X
-      // Join planet_positions for each dasha level
-      const sitChecks = dashaLevels.map(d => {
-        const a2 = `pp${aliasIdx++}`;
-        fromParts.push(
-          `LEFT JOIN planet_positions ${a2} ON ${a2}.person_id = e.person_id AND ${a2}.varga = '${c.varga}' AND ${a2}.house = ${c.house} AND ${a2}.planet = ${d}`
-        );
-        return `${a2}.id IS NOT NULL`;
+  const sqlParts=[];
+  const fromParts=['events e','JOIN persons p ON p.id = e.person_id'];
+  let aliasIdx=0;
+  qbConds.forEach((c,idx)=>{
+    const alias=`cl${aliasIdx++}`;
+    let dashaLevels=[];
+    if(c.level==='maha')dashaLevels=['e.maha'];
+    else if(c.level==='antar')dashaLevels=['e.antar'];
+    else if(c.level==='pratyantar')dashaLevels=['e.pratyantar'];
+    else if(c.level==='maha_or_antar')dashaLevels=['e.maha','e.antar'];
+    else dashaLevels=['e.maha','e.antar','e.pratyantar'];
+    let condSQL='';
+    if(c.condType==='is'){
+      const checks=dashaLevels.map(d=>`${d} = '${c.planet}'`);
+      condSQL=checks.length>1?`(${checks.join(' OR ')})`:checks[0];
+    } else if(c.condType==='rules'){
+      fromParts.push(`LEFT JOIN chart_lords ${alias} ON ${alias}.person_id = e.person_id AND ${alias}.varga = '${c.varga}' AND ${alias}.house = ${c.house}`);
+      const checks=dashaLevels.map(d=>`(${d} = ${alias}.lord OR ${d} = ${alias}.co_lord)`);
+      condSQL=checks.length>1?`(${checks.join(' OR ')})`:checks[0];
+    } else if(c.condType==='sits'){
+      const sitChecks=dashaLevels.map(d=>{
+        const a2=`pp${aliasIdx++}`;
+        fromParts.push(`LEFT JOIN planet_positions ${a2} ON ${a2}.person_id = e.person_id AND ${a2}.varga = '${c.varga}' AND ${a2}.house = ${c.house} AND ${a2}.planet = ${d}`);
+        return`${a2}.id IS NOT NULL`;
       });
-      condSQL = sitChecks.length > 1 ? `(${sitChecks.join(' OR ')})` : sitChecks[0];
+      condSQL=sitChecks.length>1?`(${sitChecks.join(' OR ')})`:sitChecks[0];
     }
-
-    if(idx === 0) {
-      sqlParts.push(condSQL);
-    } else {
-      sqlParts.push({ join: c.join, sql: condSQL });
-    }
+    if(idx===0){sqlParts.push(condSQL);}
+    else{sqlParts.push({join:c.join,sql:condSQL});}
   });
-
-  // Build WHERE clause
-  const whereParts = [];
-  if(evType) whereParts.push(`e.event_type = '${evType}'`);
-  if(yrFrom) whereParts.push(`EXTRACT(YEAR FROM e.event_date) >= ${yrFrom}`);
-  if(yrTo)   whereParts.push(`EXTRACT(YEAR FROM e.event_date) <= ${yrTo}`);
-
-  // Build condition clause
-  let condClause = sqlParts[0] || '';
-  for(let i=1;i<sqlParts.length;i++) {
-    condClause += ` ${sqlParts[i].join} ${sqlParts[i].sql}`;
-  }
-  if(condClause) whereParts.push(`(${condClause})`);
-
-  const sql = [
-    `SELECT p.name, p.dob, p.pob,`,
+  const whereParts=[];
+  if(evType)whereParts.push(`e.event_type = '${evType}'`);
+  if(yrFrom)whereParts.push(`EXTRACT(YEAR FROM e.event_date) >= ${yrFrom}`);
+  if(yrTo)whereParts.push(`EXTRACT(YEAR FROM e.event_date) <= ${yrTo}`);
+  let condClause=sqlParts[0]||'';
+  for(let i=1;i<sqlParts.length;i++){condClause+=` ${sqlParts[i].join} ${sqlParts[i].sql}`;}
+  if(condClause)whereParts.push(`(${condClause})`);
+  const sql=[
+    `SELECT p.name, p.dob, p.pob, p.ak, p.amk,`,
     `       e.event_date, e.event_type,`,
-    `       e.maha, e.antar, e.pratyantar`,
+    `       e.maha, e.antar, e.pratyantar, e.transit_notes, e.observations`,
     `FROM ${fromParts.join('\n     ')}`,
-    whereParts.length ? `WHERE ${whereParts.join('\n  AND ')}` : '',
+    whereParts.length?`WHERE ${whereParts.join('\n  AND ')}`:' ',
     `ORDER BY e.event_date`
   ].filter(Boolean).join('\n');
-
   return sql;
 }
 
-async function runQB() {
-  const sql = qbBuildSQL();
-
-  // Show SQL
-  const sqlWrap = document.getElementById('qb-sql-wrap');
-  const sqlEl   = document.getElementById('qb-sql');
-  sqlWrap.style.display = 'block';
-  sqlEl.textContent = sql;
-
-  const resultEl = document.getElementById('query-result');
-  resultEl.innerHTML = '<div class="qr-thinking">Querying…</div>';
-
-  try {
-    const { data: rows, error } = await sb.rpc('run_research_query', { query_sql: sql });
-    if(error) throw new Error(error.message);
-    const results = Array.isArray(rows) ? rows : (rows ? [rows] : []);
-    renderQBResults(resultEl, results);
-  } catch(err) {
-    resultEl.innerHTML = `<div class="qr-body"><div style="color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;padding:12px">Error: ${err.message}</div></div>`;
+async function runQB(){
+  const sql=qbBuildSQL();
+  const sqlWrap=document.getElementById('qb-sql-wrap');
+  const sqlEl=document.getElementById('qb-sql');
+  sqlWrap.style.display='block';
+  sqlEl.textContent=sql;
+  const resultEl=document.getElementById('query-result');
+  resultEl.innerHTML='<div class="qr-thinking">Querying…</div>';
+  try{
+    const{data:rows,error}=await sb.rpc('run_research_query',{query_sql:sql});
+    if(error)throw new Error(error.message);
+    const results=Array.isArray(rows)?rows:(rows?[rows]:[]);
+    renderQBResults(resultEl,results);
+  }catch(err){
+    resultEl.innerHTML=`<div style="color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;padding:12px">Error: ${err.message}</div>`;
   }
 }
 
-function renderQBResults(el, rows) {
-  if(!rows || !rows.length) {
-    el.innerHTML = '<div class="qr-empty">No matching charts found</div>';
-    return;
-  }
-  const cols = Object.keys(rows[0]);
-  const tableRows = rows.map(r =>
-    `<tr>${cols.map(c => `<td>${r[c]??'—'}</td>`).join('')}</tr>`
-  ).join('');
-  el.innerHTML = `
+function renderQBResults(el,rows){
+  if(!rows||!rows.length){el.innerHTML='<div class="qr-empty">No matching charts found</div>';return;}
+  const cols=Object.keys(rows[0]);
+  const tableRows=rows.map(r=>`<tr>${cols.map(c=>`<td>${r[c]??'—'}</td>`).join('')}</tr>`).join('');
+  el.innerHTML=`
     <div style="overflow-x:auto">
       <table class="result-table">
         <thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
@@ -1157,16 +1324,16 @@ function renderQBResults(el, rows) {
     <div class="result-count">${rows.length} result${rows.length!==1?'s':''}</div>`;
 }
 
-function clearQB() {
+function clearQB(){
   qbInit();
-  document.getElementById('qb-sql-wrap').style.display = 'none';
-  document.getElementById('query-result').innerHTML = '<div class="qr-empty">Results will appear here</div>';
-  document.getElementById('qb-evtype').value = '';
-  document.getElementById('qb-yr-from').value = '';
-  document.getElementById('qb-yr-to').value = '';
+  document.getElementById('qb-sql-wrap').style.display='none';
+  document.getElementById('query-result').innerHTML='<div class="qr-empty">Results will appear here</div>';
+  document.getElementById('qb-evtype').value='';
+  document.getElementById('qb-yr-from').value='';
+  document.getElementById('qb-yr-to').value='';
 }
 
-// ── IMPORT / EXPORT ───────────────────────────────────────────────────
+// ── EXPORT JSON ───────────────────────────────────────────────────────
 async function exportJSON(){
   const exportData={persons:[],events:[]};
   for(const p of persons){
@@ -1177,11 +1344,53 @@ async function exportJSON(){
   const b=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
   a.download=`jyotish_${new Date().toISOString().slice(0,10)}.json`;a.click();
-  toast('Exported');
+  toast('Exported JSON');
 }
 
+// ── EXPORT CSV ────────────────────────────────────────────────────────
+async function exportCSV(){
+  const rows=[];
+  const headers=['person_name','dob','pob','gender','ak','amk','d1_lagna',
+    'event_date','event_type','maha','antar','pratyantar','transit_notes','observations'];
+  rows.push(headers.join(','));
+  for(const p of persons){
+    const evs=await loadEventsForPerson(p.id);
+    if(!evs.length){
+      // Person with no events — still include one row
+      rows.push([
+        csvEsc(p.name),csvEsc(p.dob),csvEsc(p.pob),csvEsc(p.gender),
+        csvEsc(p.ak),csvEsc(p.amk),csvEsc(p.d1_lagna),
+        '','','','','',''
+      ].join(','));
+    } else {
+      evs.forEach(ev=>{
+        rows.push([
+          csvEsc(p.name),csvEsc(p.dob),csvEsc(p.pob),csvEsc(p.gender),
+          csvEsc(p.ak),csvEsc(p.amk),csvEsc(p.d1_lagna),
+          csvEsc(ev.date),csvEsc(ev.type),
+          csvEsc(ev.maha),csvEsc(ev.antar),csvEsc(ev.pratyantar),
+          csvEsc(ev.transit_notes),
+          csvEsc(ev.observations)
+        ].join(','));
+      });
+    }
+  }
+  const b=new Blob([rows.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download=`jyotish_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  toast('Exported CSV');
+}
+
+function csvEsc(v){
+  if(v==null||v===undefined||v==='')return'';
+  const s=String(v);
+  if(s.includes(',')||s.includes('"')||s.includes('\n'))return'"'+s.replace(/"/g,'""')+'"';
+  return s;
+}
+
+// ── IMPORT ────────────────────────────────────────────────────────────
 function triggerImport(){document.getElementById('file-import').click();}
-function handleImport(e){toast('Import from old localStorage format: paste persons manually for now');e.target.value='';}
+function handleImport(e){toast('Import: paste persons manually for now');e.target.value='';}
 
 function closeModal(id){document.getElementById(id).classList.add('hidden');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
