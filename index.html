@@ -364,12 +364,15 @@ async function savePersonToDB(p) {
     id: p.id, name: p.name, dob: p.dob||null, tob: p.tob||null,
     pob: p.pob||null, gender: p.gender||null,
     notes: p.notes||null, raw_varga: p.rawVarga||p.raw_varga||null,
-    // NEW metadata fields
-    ak: p.ak||null, amk: p.amk||null, varna: p.varna||null,
+    ak: p.ak||null, amk: p.amk||null,
     d1_lagna: p.d1_lagna||null, meta_raw: p.meta_raw||null
   };
   const { error } = await sb.from('persons').upsert(payload);
-  if (error) toast('Save error: '+error.message);
+  if (error) {
+    toast('Save error: '+error.message);
+    console.error('savePersonToDB failed:', error);
+  }
+  return { error };
 }
 
 async function savePlanetPositionsToDB(personId, vargas) {
@@ -661,13 +664,23 @@ async function renderPview(){
   document.getElementById('welcome').classList.add('hidden');
   document.getElementById('research-view').classList.add('hidden');
   const pv=document.getElementById('pview');pv.classList.remove('hidden');
-  const p=cp();if(!p){pv.innerHTML='';return;}
 
+  // Always reload the person record fresh from Supabase
+  // so we have the latest ak, amk, meta_raw, notes etc.
+  if(!cid){pv.innerHTML='';return;}
+  const {data:freshPerson,error:pErr} = await sb.from('persons').select('*').eq('id',cid).single();
+  if(pErr||!freshPerson){pv.innerHTML='';return;}
+
+  // Merge fresh DB data back into local persons array
+  const idx = persons.findIndex(p=>p.id===cid);
+  if(idx>=0) persons[idx]={...persons[idx],...freshPerson};
+  const p = persons[idx>=0?idx:0];
+  if(!p){pv.innerHTML='';return;}
+
+  // Load events and vargas fresh each time
   const events = await loadEventsForPerson(p.id);
   p._events = events;
-  if (!p.vargas || !Object.keys(p.vargas).length) {
-    p.vargas = await loadVargasForPerson(p.id);
-  }
+  p.vargas = await loadVargasForPerson(p.id);
 
   // Parse existing meta_raw if present
   const metaParsed = p.meta_raw ? parseJHoraMeta(p.meta_raw) : null;
@@ -1091,11 +1104,14 @@ async function savePerson(){
     tob:document.getElementById('np-tob').value||null,
     pob:document.getElementById('np-pob').value||null,
     gender:document.getElementById('np-gender').value||null,
-    raw_varga:'',vargas:{},notes:'',
+    raw_varga:null,vargas:{},notes:'',
     ak:null,amk:null,d1_lagna:null,meta_raw:null,
     created_at:new Date().toISOString()
   };
-  await savePersonToDB({...p,rawVarga:''});
+  const {error} = await savePersonToDB({...p,rawVarga:''});
+  if(error){toast('Error creating person');return;}
+  // Add to local array directly — do NOT call loadPersons()
+  // which would replace the array and lose any in-flight state
   persons.unshift(p);
   closeModal('modal-np');
   cid=p.id;
@@ -1141,8 +1157,13 @@ function switchTab(tab){
     if(!qbConds.length)qbInit();
   } else {
     document.getElementById('research-view').classList.add('hidden');
-    if(cid){renderPview();}
-    else{document.getElementById('welcome').classList.remove('hidden');}
+    if(cid){
+      // Always reload fresh from DB when returning to Charts tab
+      // so all saved data (notes, meta, events) is current
+      renderPview();
+    } else {
+      document.getElementById('welcome').classList.remove('hidden');
+    }
   }
 }
 
