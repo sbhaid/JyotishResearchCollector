@@ -1333,18 +1333,147 @@ function clearQB(){
   document.getElementById('qb-yr-to').value='';
 }
 
-// ── EXPORT JSON ───────────────────────────────────────────────────────
+// ── EXPORT JSON (complete backup) ────────────────────────────────────
+// Exports every field needed for a full safe restore:
+// persons (all columns) + events (all columns including observations,
+// transit_notes) + raw_varga so planet_positions/chart_lords
+// can be rebuilt on import.
 async function exportJSON(){
-  const exportData={persons:[],events:[]};
+  toast('Preparing backup…');
+  const exportData={
+    version: 2,
+    exported_at: new Date().toISOString(),
+    persons: [],
+    events: []
+  };
   for(const p of persons){
-    exportData.persons.push(p);
+    exportData.persons.push({
+      id:p.id, name:p.name, dob:p.dob||null, tob:p.tob||null,
+      pob:p.pob||null, gender:p.gender||null,
+      notes:p.notes||null, raw_varga:p.raw_varga||null,
+      ak:p.ak||null, amk:p.amk||null,
+      d1_lagna:p.d1_lagna||null, meta_raw:p.meta_raw||null,
+      created_at:p.created_at||null
+    });
     const evs=await loadEventsForPerson(p.id);
-    exportData.events.push(...evs.map(e=>({...e,person_id:p.id})));
+    evs.forEach(e=>{
+      exportData.events.push({
+        id:e.id, person_id:p.id,
+        date:e.date||null, type:e.type,
+        maha:e.maha||null, antar:e.antar||null,
+        pratyantar:e.pratyantar||null,
+        transit_notes:e.transit_notes||null,
+        observations:e.observations||null,
+        notes:e.notes||null
+      });
+    });
   }
   const b=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
-  a.download=`jyotish_${new Date().toISOString().slice(0,10)}.json`;a.click();
-  toast('Exported JSON');
+  a.download=`jyotish_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  toast(`Backup complete — ${exportData.persons.length} persons, ${exportData.events.length} events`);
+}
+
+// ── IMPORT JSON (safe restore) ────────────────────────────────────────
+// Safe restore from a backup JSON file.
+// Uses upsert throughout — safe to run multiple times, will never
+// create duplicates. Existing data is updated, new data is inserted.
+// planet_positions and chart_lords are rebuilt from raw_varga.
+function triggerImport(){document.getElementById('file-import').click();}
+
+async function handleImport(e){
+  const f=e.target.files[0];
+  if(!f){return;}
+  e.target.value='';
+
+  let data;
+  try{
+    const text=await f.text();
+    data=JSON.parse(text);
+  }catch(err){
+    toast('Import failed — invalid JSON file');return;
+  }
+
+  // Support both v1 format (persons/events arrays) and v2 format
+  const importPersons=data.persons||[];
+  const importEvents=data.events||[];
+
+  if(!importPersons.length){toast('No persons found in backup file');return;}
+
+  const confirmed=confirm(
+    `Restore from backup?\n\n` +
+    `${importPersons.length} persons\n` +
+    `${importEvents.length} events\n\n` +
+    `Existing records with the same ID will be updated.\n` +
+    `No data will be deleted. This is safe to run at any time.`
+  );
+  if(!confirmed)return;
+
+  toast('Restoring… please wait');
+
+  let personsOK=0, personsErr=0;
+  let eventsOK=0, eventsErr=0;
+  let positionsOK=0;
+
+  // Step 1 — restore persons
+  for(const p of importPersons){
+    const{error}=await sb.from('persons').upsert({
+      id:p.id, name:p.name,
+      dob:p.dob||null, tob:p.tob||null,
+      pob:p.pob||null, gender:p.gender||null,
+      notes:p.notes||null, raw_varga:p.raw_varga||null,
+      ak:p.ak||null, amk:p.amk||null,
+      d1_lagna:p.d1_lagna||null, meta_raw:p.meta_raw||null,
+      created_at:p.created_at||null
+    });
+    if(error){personsErr++;console.error('Person upsert error',p.name,error.message);}
+    else personsOK++;
+  }
+
+  // Step 2 — restore events (all fields including observations + transit_notes)
+  for(const ev of importEvents){
+    const{error}=await sb.from('events').upsert({
+      id:ev.id, person_id:ev.person_id,
+      event_date:ev.date||null,
+      event_type:ev.type||ev.event_type,
+      maha:ev.maha||null, antar:ev.antar||null,
+      pratyantar:ev.pratyantar||null,
+      transit_notes:ev.transit_notes||null,
+      observations:ev.observations||null,
+      notes:ev.notes||null
+    });
+    if(error){eventsErr++;console.error('Event upsert error',ev.id,error.message);}
+    else eventsOK++;
+  }
+
+  // Step 3 — rebuild planet_positions and chart_lords from raw_varga
+  for(const p of importPersons){
+    if(!p.raw_varga)continue;
+    const parsed=parseVargaTable(p.raw_varga);
+    if(!parsed||!Object.keys(parsed.planets).length)continue;
+    const vargas={};
+    Object.entries(parsed.planets).forEach(([pl,vm])=>{
+      Object.entries(vm).forEach(([vn,pos])=>{
+        if(!vargas[vn])vargas[vn]={};
+        vargas[vn][pl]=pos;
+      });
+    });
+    await savePlanetPositionsToDB(p.id,vargas);
+    positionsOK++;
+  }
+
+  // Step 4 — reload from Supabase into local state
+  await loadPersons();
+
+  // Report
+  const errMsg=personsErr||eventsErr
+    ?` (${personsErr+eventsErr} errors — check console)`:'';
+  toast(
+    `Restore complete${errMsg} — ` +
+    `${personsOK} persons, ${eventsOK} events, ` +
+    `${positionsOK} charts rebuilt`
+  );
 }
 
 // ── EXPORT CSV ────────────────────────────────────────────────────────
@@ -1387,10 +1516,6 @@ function csvEsc(v){
   if(s.includes(',')||s.includes('"')||s.includes('\n'))return'"'+s.replace(/"/g,'""')+'"';
   return s;
 }
-
-// ── IMPORT ────────────────────────────────────────────────────────────
-function triggerImport(){document.getElementById('file-import').click();}
-function handleImport(e){toast('Import: paste persons manually for now');e.target.value='';}
 
 function closeModal(id){document.getElementById(id).classList.add('hidden');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
