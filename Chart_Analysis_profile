@@ -1,0 +1,70 @@
+-- ============================================================
+-- CHART ANALYSIS TABLE — migration
+-- Run this in Supabase SQL editor before deploying index.html
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS chart_analysis (
+  person_id       text PRIMARY KEY REFERENCES persons(id) ON DELETE CASCADE,
+
+  -- ── D1: AUTO-COMPUTED ──────────────────────────────────────
+  d1_lagna_planets        text,   -- planets in lagna house + lagna lord placement
+  d1_10h_planets          text,   -- planets in 10H + 10L placement
+  d1_6h_planets           text,   -- planets in 6H + 6L placement
+  d1_amk_info             text,   -- AmK planet, house, sign in D1
+  d1_yuga_rashi           text,   -- element distribution: fire/water/air/earth
+
+  -- ── D1: MANUAL ─────────────────────────────────────────────
+  d1_special_lagna        text,   -- special lagna & BB transit (analyst)
+  d1_dasha_transit        text,   -- dasha/transit at key events (analyst)
+  d1_notes                text,   -- free text D1 observations
+
+  -- ── D10: AUTO-COMPUTED ─────────────────────────────────────
+  d10_ak_info             text,   -- AK planet, house, sign in D10
+  d10_amk_info            text,   -- AmK planet, house, sign in D10
+  d10_lagna_info          text,   -- D10 lagna sign + LL placement
+  d10_10h_planets         text,   -- planets in D10 10H + 10L placement
+  d10_saturn_trine        text,   -- planets in trine with Saturn (D10)
+  d10_d1_10l_in_d10       text,   -- where D1's 10L lands in D10
+  d10_moon_placement      text,   -- Moon house + sign in D10
+  d10_d1_2l_11l_in_d10    text,   -- where D1's 2L and 11L land in D10
+  d10_d1_yk_in_d10        text,   -- where D1's yoga karaka lands in D10
+  d10_business_job        text,   -- computed 3-part scorecard: D1/D9/D10
+  d10_yuga_rashi          text,   -- element distribution in D10
+
+  -- ── D10: MANUAL ─────────────────────────────────────────────
+  d10_mks                 text,   -- MKS planets (analyst)
+  d10_special_yogas       text,   -- special yogas in D10 (analyst)
+  d10_special_lagna       text,   -- special lagna notes D10 (analyst)
+  d10_notes               text,   -- free text D10 observations
+
+  -- ── D9: AUTO-COMPUTED ──────────────────────────────────────
+  d9_lagna_planets        text,   -- planets influencing D9 lagna
+  d9_10h_planets          text,   -- planets influencing D9 10H/10L
+
+  -- ── D9: MANUAL ─────────────────────────────────────────────
+  d9_notes                text,   -- free text D9 observations
+
+  -- ── D24: AUTO-COMPUTED ─────────────────────────────────────
+  d24_lagna_info          text,   -- D24 lagna sign + lagna lord placement
+  d24_4h_9h_2h            text,   -- planets in 4H, 9H, 2H of D24
+  d24_ak_amk              text,   -- AK and AmK placement in D24
+
+  -- ── FINAL ──────────────────────────────────────────────────
+  final_summary           text,   -- analyst synthesis
+  complete_pct            integer DEFAULT 0,
+
+  -- ── AUDIT ──────────────────────────────────────────────────
+  updated_at              timestamptz DEFAULT now()
+);
+
+ALTER TABLE chart_analysis ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "allow_all_chart_analysis" ON chart_analysis FOR ALL USING (true) WITH CHECK (true);
+
+-- Trigger to auto-update updated_at
+CREATE OR REPLACE FUNCTION update_chart_analysis_ts()
+RETURNS TRIGGER LANGUAGE plpgsql AS $$
+BEGIN NEW.updated_at = now(); RETURN NEW; END; $$;
+
+CREATE TRIGGER trg_chart_analysis_ts
+  BEFORE UPDATE ON chart_analysis
+  FOR EACH ROW EXECUTE FUNCTION update_chart_analysis_ts();
