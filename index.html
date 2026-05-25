@@ -188,6 +188,40 @@ hr.rl{border:none;border-top:1px solid var(--rule);margin:20px 0}
 .result-table td{padding:5px 10px;border-bottom:1px solid var(--rule);font-size:12px;white-space:nowrap}
 .result-table tr:hover td{background:var(--gold-bg)}
 .result-count{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:6px 14px;border-top:1px solid var(--rule);background:var(--bg3)}
+
+/* ── CHART ANALYSIS SECTION ── */
+.ca-block{border:1px solid var(--border);margin-bottom:10px;background:#fff}
+.ca-block-hdr{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-bottom:1px solid var(--rule);cursor:pointer;user-select:none}
+.ca-block-hdr:hover{background:var(--bg2)}
+.ca-block-title{font-family:'Libre Baskerville',serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.ca-block-sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);margin-left:4px}
+.ca-block-chev{font-size:9px;color:var(--ink3);margin-left:auto;transition:transform .2s}
+.ca-block-chev.open{transform:rotate(180deg)}
+.ca-block-body{display:none;padding:12px 14px}
+.ca-block-body.open{display:block}
+.ca-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ca-field{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+.ca-field.full{grid-column:1/-1}
+.ca-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--ink3);text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.ca-val{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink);background:var(--bg2);border:1px solid var(--rule);padding:6px 9px;line-height:1.6;min-height:28px;white-space:pre-wrap;word-break:break-word}
+.ca-val.empty{color:var(--ink3);font-style:italic}
+.ca-ta{font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 9px;border:1px solid var(--border2);background:#fff;color:var(--ink);resize:vertical;outline:none;line-height:1.6;min-height:60px;width:100%}
+.ca-ta:focus{border-color:var(--gold)}
+.ca-save-btn{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 10px;border:1px solid var(--gold);background:var(--gold);color:#fff;cursor:pointer;margin-top:4px;align-self:flex-start}
+.ca-save-btn:hover{background:#6b5010}
+.ca-biz-score{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.ca-biz-pill{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 10px;border-radius:20px;border:1px solid}
+.ca-biz-yes{border-color:var(--green);color:var(--green);background:#eef7f2}
+.ca-biz-no{border-color:var(--red);color:var(--red);background:#fdf0f0}
+.ca-biz-na{border-color:var(--border2);color:var(--ink3);background:var(--bg2)}
+.ca-elem-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.ca-elem-pill{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 10px;border-radius:20px;border:1px solid}
+.ca-elem-fire{border-color:#c05020;color:#8b2a08;background:#fdf0ec}
+.ca-elem-water{border-color:#1a3a6b;color:#1a3a6b;background:#eef2fb}
+.ca-elem-air{border-color:#2e5c8a;color:#1a3a6b;background:#eaf4fb}
+.ca-elem-earth{border-color:#5c4a1a;color:#3d2e08;background:#f5f0e0}
+.ca-pct-bar{height:4px;background:var(--rule);margin-top:6px;margin-bottom:2px}
+.ca-pct-fill{height:4px;background:var(--gold);transition:width .4s}
 </style>
 </head>
 <body>
@@ -748,9 +782,18 @@ async function renderPview(){
       <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;font-size:11px">${rashaRefHTML()}</div>
     </div>
 
-    <!-- SECTION 5: EVENTS -->
+    <!-- SECTION 5: CHART ANALYSIS -->
     <div class="sec">
-      <div class="sec-ttl">5 — Life Events <span id="ev-count-lbl">${events.length} RECORDED</span></div>
+      <div class="sec-ttl">5 — Chart Analysis <span>CAREER PATTERN CHECKLIST</span>
+        <span style="margin-left:auto;font-weight:400;font-size:9px;color:var(--ink3)" id="ca-pct-lbl"></span>
+      </div>
+      <div class="ca-pct-bar"><div class="ca-pct-fill" id="ca-pct-fill" style="width:0%"></div></div>
+      <div id="ca-section">${renderChartAnalysis(p)}</div>
+    </div>
+
+    <!-- SECTION 6: EVENTS -->
+    <div class="sec">
+      <div class="sec-ttl">6 — Life Events <span id="ev-count-lbl">${events.length} RECORDED</span></div>
       <div class="ev-form">
         <div class="fg"><label>Date</label><input type="date" id="ev-d"></div>
         <div class="fg"><label>Type</label><select id="ev-t">${typeOpts}</select></div>
@@ -771,6 +814,8 @@ async function renderPview(){
       </div>
     </div>
   </div>`;
+  // Load stored chart analysis asynchronously after render
+  refreshChartAnalysis(p);
 }
 
 function renderAllCharts(p){
@@ -1780,6 +1825,152 @@ function rRender(){
   };
   box.innerHTML='<div class="rl-empty">Select a '+(rtab===0?'Rāśi':'Bhāva')+' above.</div>';
 }
+// ── CHART ANALYSIS ───────────────────────────────────────────────────
+
+// ── SUPABASE: LOAD chart_analysis ────────────────────────────────────
+async function loadChartAnalysis(personId) {
+  const { data, error } = await sb.from('chart_analysis').select('*').eq('person_id', personId).single();
+  if (error || !data) return {};
+  return data;
+}
+
+function computeCompletePct(row) {
+  const fields = [
+    'd1_lagna_planets','d1_10h_planets','d1_6h_planets','d1_amk_info','d1_yuga_rashi',
+    'd1_special_lagna','d1_dasha_transit','d1_notes',
+    'd10_ak_info','d10_amk_info','d10_lagna_info','d10_10h_planets','d10_saturn_trine',
+    'd10_d1_10l_in_d10','d10_moon_placement','d10_d1_2l_11l_in_d10','d10_d1_yk_in_d10',
+    'd10_business_job','d10_yuga_rashi','d10_mks','d10_special_yogas','d10_special_lagna','d10_notes',
+    'd9_lagna_planets','d9_10h_planets','d9_notes',
+    'd24_lagna_info','d24_4h_9h_2h','d24_ak_amk','final_summary'
+  ];
+  const filled = fields.filter(f => row[f] && row[f].trim && row[f].trim());
+  return Math.round((filled.length / fields.length) * 100);
+}
+
+function updateCAPct(pct) {
+  const lbl = document.getElementById('ca-pct-lbl');
+  const fill = document.getElementById('ca-pct-fill');
+  if (lbl) lbl.textContent = pct + '% complete';
+  if (fill) fill.style.width = pct + '%';
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function renderChartAnalysis(p) {
+  return buildCABlocks(p, {});
+}
+
+async function refreshChartAnalysis(p) {
+  const stored = await loadChartAnalysis(p.id);
+  const el = document.getElementById('ca-section');
+  if (el) el.innerHTML = buildCABlocks(p, stored);
+  updateCAPct(stored.complete_pct || 0);
+}
+
+function buildCABlocks(p, s) {
+
+  function field(label, dbField, value, rows, hint) {
+    const val = value || '';
+    const hintHtml = hint ? `<span style="font-weight:400;font-size:8px;color:var(--ink3);text-transform:none;letter-spacing:0;margin-left:4px">${hint}</span>` : '';
+    return `<div class="ca-field">
+      <div class="ca-lbl">${label}${hintHtml}</div>
+      <textarea class="ca-ta" rows="${rows||2}"
+        onblur="saveCAField('${dbField}', this.value)"
+        placeholder="">${val}</textarea>
+    </div>`;
+  }
+
+  function block(id, title, sub, bodyHtml, open) {
+    return `<div class="ca-block">
+      <div class="ca-block-hdr" onclick="toggleCABlock('${id}')">
+        <span class="ca-block-title">${title}</span>
+        <span class="ca-block-sub">${sub}</span>
+        <span class="ca-block-chev${open?' open':''}" id="ca-chev-${id}">▼</span>
+      </div>
+      <div class="ca-block-body${open?' open':''}" id="ca-body-${id}">
+        <div class="ca-grid">${bodyHtml}</div>
+      </div>
+    </div>`;
+  }
+
+  // ── D1 ──
+  const d1 =
+    field('Lagna &amp; LL — who you are', 'd1_lagna_planets', s.d1_lagna_planets, 2, 'planets influencing lagna + LL placement') +
+    field('10H &amp; 10L — work situation', 'd1_10h_planets', s.d1_10h_planets, 2, 'planets influencing 10H + 10L placement') +
+    field('6H &amp; 6L', 'd1_6h_planets', s.d1_6h_planets, 2, 'planets influencing 6H + 6L') +
+    field('AmK — graha, bhava, rashi', 'd1_amk_info', s.d1_amk_info, 2, 'career significator expression') +
+    `<div class="ca-field full">${field('Yuga Rashi — element distribution', 'd1_yuga_rashi', s.d1_yuga_rashi, 2, 'fire=easy · water=some practice · air=more effort · earth=lots of effort')}</div>` +
+    `<div class="ca-field full">${field('Special Lagna &amp; BB / Transit', 'd1_special_lagna', s.d1_special_lagna, 2)}</div>` +
+    `<div class="ca-field full">${field('Dasha / Transit at key events', 'd1_dasha_transit', s.d1_dasha_transit, 2)}</div>` +
+    `<div class="ca-field full">${field('D1 Notes', 'd1_notes', s.d1_notes, 4)}</div>`;
+
+  // ── D10 ──
+  const d10 =
+    field('AK in D10 — graha, bhava, rashi', 'd10_ak_info', s.d10_ak_info, 2, "soul's purpose through career") +
+    field('AmK in D10 — graha, bhava, rashi', 'd10_amk_info', s.d10_amk_info, 2, 'expression through work') +
+    field('D10 Lagna + LL', 'd10_lagna_info', s.d10_lagna_info, 2, 'professional self · attitude to work') +
+    field('D10 10H + 10L', 'd10_10h_planets', s.d10_10h_planets, 2, 'professional identity + engine') +
+    field('Saturn trine in D10', 'd10_saturn_trine', s.d10_saturn_trine, 2, 'planets in same trine group as Saturn') +
+    field('D1 10L placement in D10', 'd10_d1_10l_in_d10', s.d10_d1_10l_in_d10, 2, 'what you achieve — Narayana concept') +
+    field('Moon in D10', 'd10_moon_placement', s.d10_moon_placement, 2, "mental inclination · Moon's motivation") +
+    field('D1 2L &amp; 11L in D10', 'd10_d1_2l_11l_in_d10', s.d10_d1_2l_11l_in_d10, 2, 'finance from work') +
+    field('D1 Yoga Karaka in D10', 'd10_d1_yk_in_d10', s.d10_d1_yk_in_d10, 2, 'how yoga manifests in profession') +
+    `<div class="ca-field full">${field('Yuga Rashi D10 — element distribution', 'd10_yuga_rashi', s.d10_yuga_rashi, 2, 'fire=easy · water=some practice · air=more effort · earth=lots of effort')}</div>` +
+    `<div class="ca-field full">${field('Business or Job? — D1 / D9 / D10 check', 'd10_business_job', s.d10_business_job, 3, 'D1: Me strength + 7H + 11H · D9: AK→3H/11H · D10: 7H vs 6H')}</div>` +
+    `<div class="ca-field full">${field('D10 MKS — Marana Karaka Sthana', 'd10_mks', s.d10_mks, 2, 'from AK lagna · AL lagna · D10 lagna')}</div>` +
+    `<div class="ca-field full">${field('Special Yogas in D10', 'd10_special_yogas', s.d10_special_yogas, 3, 'Gaja Kesari · Budha-Aditya · Chandra-Mangal · Parivartan etc.')}</div>` +
+    `<div class="ca-field full">${field('Special Lagna (D10)', 'd10_special_lagna', s.d10_special_lagna, 2)}</div>` +
+    `<div class="ca-field full">${field('D10 Notes', 'd10_notes', s.d10_notes, 4)}</div>`;
+
+  // ── D9 ──
+  const d9 =
+    field('Graha influencing D9 Lagna', 'd9_lagna_planets', s.d9_lagna_planets, 2) +
+    field('Graha influencing D9 10H / 10L', 'd9_10h_planets', s.d9_10h_planets, 2) +
+    `<div class="ca-field full">${field('D9 Notes', 'd9_notes', s.d9_notes, 4)}</div>`;
+
+  // ── D24 ──
+  const d24 =
+    field('D24 Lagna lord + Lagna', 'd24_lagna_info', s.d24_lagna_info, 2) +
+    field('AK &amp; AmK in D24', 'd24_ak_amk', s.d24_ak_amk, 2) +
+    `<div class="ca-field full">${field('4H · 9H · 2H', 'd24_4h_9h_2h', s.d24_4h_9h_2h, 2, 'education path · guru · wealth')}</div>`;
+
+  // ── Final ──
+  const fin =
+    `<div class="ca-field full">${field('Final Summary — career synthesis', 'final_summary', s.final_summary, 6)}</div>`;
+
+  return block('d1',  'D1 — Rasi Chart',    'who you are · work · dharma', d1, true)
+       + block('d10', 'D10 — Dashamsha',    'professional self · career execution', d10, false)
+       + block('d9',  'D9 — Navamsha',      'soul desire · inner compass', d9, false)
+       + block('d24', 'D24 — Siddhamsha',   'education · knowledge domain', d24, false)
+       + block('fin', 'Final Summary',      'synthesis across charts', fin, false);
+}
+
+function toggleCABlock(id) {
+  const body = document.getElementById('ca-body-' + id);
+  const chev = document.getElementById('ca-chev-' + id);
+  if (!body) return;
+  body.classList.toggle('open');
+  if (chev) chev.classList.toggle('open');
+}
+
+// Debounced save — fires 800ms after last keystroke on blur
+const _caTimers = {};
+async function saveCAField(field, value) {
+  const p = cp(); if (!p) return;
+  const { error } = await sb.from('chart_analysis').upsert({
+    person_id: p.id,
+    [field]: value || null
+  });
+  if (error) { toast('Save error: ' + error.message); return; }
+  // Recalculate complete %
+  const { data } = await sb.from('chart_analysis').select('*').eq('person_id', p.id).single();
+  if (data) {
+    const pct = computeCompletePct(data);
+    await sb.from('chart_analysis').update({ complete_pct: pct }).eq('person_id', p.id);
+    updateCAPct(pct);
+  }
+}
+
 </script>
 </body>
 </html>
